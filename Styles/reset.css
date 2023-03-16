@@ -1,0 +1,41 @@
+/* import the Poppins font with all the necessary weights */
+@font-face {
+    font-family: Poppins-bold;
+    src: url(fonts/Poppins/Poppins-Bold.ttf);
+}
+@font-face {
+    font-family: Poppins-medium;
+    src: url(fonts/Poppins/Poppins-Medium.ttf);
+}
+@font-face {
+    font-family: Poppins;
+    src: url(fonts/Poppins/Poppins-Regular.ttf);
+}
+@font-face {
+    font-family: Poppins-light;
+    src: url(fonts/Poppins/Poppins-Light.ttf);
+}
+
+*{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+:root{
+    --dark: #1b2149;
+    --secondary: #7b57df;
+    --light: #ffffff;
+    --gray: #797d94;
+    --pinky: #eb5769;
+    --green: #5dc983;
+    --orange: #f2af4c;
+    --bg-color: #f7f7fd;
+
+    font-family: Poppins;
+    color: var(--dark);
+}
+body{
+    width: 100%;
+    min-height: 100vh;
+    background-color: var(--bg-color);
+}

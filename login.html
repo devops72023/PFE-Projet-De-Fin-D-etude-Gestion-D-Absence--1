@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gesstion d'absence M6 - LOGIN</title>
+    <!-- LINK THE FONT AWESOME LIBRARY -->
+    <link rel="stylesheet" href="Styles/fonts/Awesome/css/all.min.css">
+    <!-- LINK THE RSET CSS FILE -->
+    <link rel="stylesheet" href="Styles/reset.css">
+    <!-- LINK THE STYLE FILE -->
+    <link rel="stylesheet" href="Styles/login.css">
+
+
+    <!-- LINK THE JAVASCRIPT FILES -->
+    <script src="Scripts/animations.js" defer></script>
+</head>
+<body>
+    <div class="container">
+        <div class="main">
+            <div class="about">
+                <div class="logo">
+                    <img src="Images/logo/logo-transparent.png" alt="M6 logo">
+                </div>
+                <h1 class="school">BTS MOHAMMED VI</h1>
+                <h2 class="second--title">System de gestion d'absence</h2>
+                <p class="rights">All rights reserved &copy; 2023</p>
+            </div>
+    
+            <form action="#" method="post" class="login-form">
+                <h2 class="connexion">CONNEXION</h2>
+                <div class="form-group username-group">
+                    <div class="input-box">
+                        <label for="username" class="label">Nom d'utilisateur</label>
+                        <input type="text" id="username" name="username" onfocus="onFocusInput(this)" onblur="onBlurInput(this)">
+                        <i class="fas fa-user"></i>
+                    </div>
+                </div>
+                <div class="form-group password-group">
+                    <div class="input-box">
+                        <label for="password" class="label">Mot de passe</label>
+                        <input type="password" id="password" name="password" onfocus="onFocusInput(this)" onblur="onBlurInput(this)">
+                        <i class="fas fa-lock"></i>
+                    </div>
+                </div>
+                <div class="form-group isWho-group">
+                    <div class="etudiant">
+                        <input type="radio" id="etudiant" value="etudiant" name="isWho">
+                        <label for="etudiant">Etudiant</label>
+                    </div>
+                    <div class="professor">
+                        <input type="radio" id="professor" value="professor" name="isWho">
+                        <label for="professor">Professeur</label>
+                    </div>
+                </div>
+                <div class="form-group submit-group">
+                    <input type="submit" value="SE CONNECTER" name="submit">
+                </div>
+                <div class="form-group other-group">
+                    <input type="checkbox" name="sevenir" id="sevenir">
+                    <label for="sevenir"> Se seveir de moi</label>
+                    <a href="#" class="forgot-pwd">Mot de passe oublié?</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</body>
+</html>
