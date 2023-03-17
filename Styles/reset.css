@@ -15,6 +15,23 @@
     font-family: Poppins-light;
     src: url(fonts/Poppins/Poppins-Light.ttf);
 }
+/* import the Jost font with all the necessary weights */
+@font-face {
+    font-family: Jost-bold;
+    src: url(fonts/Jost/Jost-Bold.ttf);
+}
+@font-face {
+    font-family: Jost-medium;
+    src: url(fonts/Jost/Jost-Medium.ttf);
+}
+@font-face {
+    font-family: Jost;
+    src: url(fonts/Jost/Jost-Regular.ttf);
+}
+@font-face {
+    font-family: Jost-light;
+    src: url(fonts/Jost/Jost-Light.ttf);
+}
 
 *{
     padding: 0;
