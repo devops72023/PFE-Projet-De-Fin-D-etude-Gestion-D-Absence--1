@@ -8,11 +8,14 @@
 
     
     <!-- LINK THE FONT AWESOME LIBRARY -->
-    <link rel="stylesheet" href="../Styles/fonts/Awesome/css/all.min.css">
+    <link rel="stylesheet" href="../../Styles/fonts/Awesome/css/all.min.css">
     <!-- LINK THE RSET CSS FILE -->
-    <link rel="stylesheet" href="../Styles/reset.css">
+    <link rel="stylesheet" href="../../Styles/reset.css">
     <!-- LINK THE STYLE FILE -->
-    <link rel="stylesheet" href="../Styles/Professor/Dashboard.css">
+    <link rel="stylesheet" href="../../Styles/Professor/Header.css">
+
+    <!-- LINK ALL THE JS FILES -->
+    <script defer src="../../Scripts/Professor/Header.js"></script>
 </head>
 <body>
     <header>
@@ -48,7 +51,7 @@
     </header>
     <nav>
         <ul>
-            <li class="list">
+            <li class="list active">
                 <a href="#">
                     <svg class="icon" viewBox="0 0 35 31" xmlns="http://www.w3.org/2000/svg">
                         <path d="M0 4.42857C0 1.98594 1.96191 0 4.375 0H30.625C33.0381 0 35 1.98594 35 4.42857V26.5714C35 29.0141 33.0381 31 30.625 31H4.375C1.96191 31 0 29.0141 0 26.5714V4.42857ZM4.375 8.85714V26.5714H15.3125V8.85714H4.375ZM30.625 8.85714H19.6875V26.5714H30.625V8.85714Z" />
@@ -81,7 +84,6 @@
                     <div class="text">Seances</div>
                 </a>
             </li>
+            <div class="indicator"></div>
         </ul>
     </nav>
-</body>
-</html>
