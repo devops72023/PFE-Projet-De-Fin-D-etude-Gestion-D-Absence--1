@@ -38,6 +38,7 @@
     margin: 0;
     box-sizing: border-box;
 }
+
 :root{
     --dark: #1b2149;
     --secondary: #7b57df;
