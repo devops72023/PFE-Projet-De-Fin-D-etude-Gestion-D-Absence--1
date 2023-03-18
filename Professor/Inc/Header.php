@@ -13,9 +13,11 @@
     <link rel="stylesheet" href="../../Styles/reset.css">
     <!-- LINK THE STYLE FILE -->
     <link rel="stylesheet" href="../../Styles/Professor/Header.css">
+    <link rel="stylesheet" href="../../Styles/Professor/Dashboard.css">
 
     <!-- LINK ALL THE JS FILES -->
     <script defer src="../../Scripts/Professor/Header.js"></script>
+    <script defer src="../../Scripts/Professor/Dashboard.js"></script>
 </head>
 <body>
     <header>
@@ -84,6 +86,8 @@
                     <div class="text">Seances</div>
                 </button>
             </li>
-            <div class="indicator"></div>
+            <div class="indicator">
+                <dic class="circle"></div>
+            </div>
         </ul>
     </nav>

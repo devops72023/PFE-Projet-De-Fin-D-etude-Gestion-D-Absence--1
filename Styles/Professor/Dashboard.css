@@ -1,0 +1,231 @@
+main{
+    width: calc(100% - 250px);
+    min-height: 100%;
+    height: auto;
+    margin-top: 100px;
+    margin-left: 250px;
+    padding: 40px;
+    background-color: var(--bg-color);
+}
+.dashboard-container{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+}
+.teacher{
+    width: 100%;
+    text-align: center;
+    margin-bottom: 20px;
+}
+.filter-section{
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    gap: 10px;
+}
+.filter-classes{
+    width: fit-content;
+    display: flex;
+    gap: 10px;
+}
+.filter-classes a{
+    text-decoration: none;
+    color: var(--gray);
+    font-size: 14px;
+}
+.filter-classes a.strong{
+    font-family: Poppins-medium;
+    font-size: 14px;
+    color: var(--dark);
+}
+.filter-search{
+    display: flex;
+    gap: 0px;
+    box-shadow: rgba(50, 50, 93, 0.1) 0px 13px 27px -5px,
+                rgba(0, 0, 0, 0.2) 0px 5px 10px -8px;
+}
+.filter-search input,
+.filter-search button{
+    border: none;
+    outline: transparent;
+    background: var(--light);
+    height: 35px;
+}
+.filter-search input{
+    width: auto;
+    flex-shrink: 1;
+    flex-grow: 0;
+    padding: 0px 0px 0px 15px;
+    color: var(--gray);
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+}
+.filter-search button{
+    width: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+}
+.filter-dates{
+    width: fit-content;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    position: relative;
+    margin-right: auto;
+}
+.choosed-date{
+    display: flex;
+    width: 200px;
+    height: 35px;
+    gap: 10px;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px;
+    background: var(--light);
+    border-radius: 10px;
+    font-size: 14px;
+    cursor: pointer;
+    z-index: 2;
+    box-shadow: rgba(50, 50, 93, 0.1) 0px 13px 27px -5px,
+                rgba(0, 0, 0, 0.2) 0px 5px 10px -8px;
+}
+.choosed-date i{
+    transition: all .3s ease-in-out;
+}
+.dates-list{
+    position: absolute;
+    top: 0px;
+    width: 200px;
+    padding: 10px 0;
+    background: var(--light);
+    border-radius: 10px;
+    z-index: 1;
+    opacity: 0;
+    box-shadow: rgba(50, 50, 93, 0.1) 0px 13px 27px -5px,
+                rgba(0, 0, 0, 0.2) 0px 5px 10px -8px;
+    transition: all .3s ease-in-out;
+}
+.dates-list .option{
+    height: 30px;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all .3s ease-in-out;
+}
+.dates-list .option:hover{
+    background: var(--light-secondary);
+}
+.show-dates-list{
+    opacity: 1;
+    transform: translateY(45px);
+}
+.classes-cards{
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: space-around;
+    align-items: center;
+    padding-left: auto;
+}
+.card{
+    width: 250px;
+    height: 150px;
+    background: var(--dark);
+    border-radius: 10px;
+    overflow: hidden;
+    position: relative;
+    box-shadow: rgba(50, 50, 93, 0.1) 0px 13px 27px -5px,
+                rgba(0, 0, 0, 0.2) 0px 5px 10px -8px;
+    transition: all .3s ease-in-out;
+    cursor: pointer;
+}
+.branch-img{
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 140px;
+    height: 87.67px;
+    border-bottom-left-radius: 80%;
+    overflow: hidden;
+}
+.branch-img > img{
+    width: 140px;
+    transition: all .3s ease-in-out;
+}
+.class-level{
+    position: absolute;
+    left: 20px;
+    bottom: 30px;
+    height: 100px;
+    color: var(--light);
+    font-size: 95px;
+    font-family: Poppins;
+    transition: all .3s ease-in-out;
+}
+.class-name{
+    position: absolute;
+    left: 70px;
+    bottom: 20px;
+    color: var(--light);
+    font-size: 35px;
+    font-family: Poppins-light;
+    transition: all .3s ease-in-out;
+    height: 40px;
+}
+.this{
+    position: absolute;
+    right: 50px;
+    bottom: 20px;
+    height: 15px;
+    width: 15px;
+    border-radius: 50%;
+    background: var(--green);
+    transition: all .3s ease-in-out;
+}
+.card:hover .class-level{
+    transform: rotateZ(10deg);
+}
+.card:hover .branch-img > img{
+    transform: scale(1.2);
+}
+@media only screen and (max-width: 1110px){
+    .filter-section{
+        flex-direction: column;
+        justify-content: center;
+    }
+    .filter-classes{
+        margin: 0;
+    }
+    .classes-cards{
+        justify-content: center;
+    }
+}
+@media only screen and (max-width: 630px){
+    main{
+        margin-top: 70px;
+        margin-left: 0;
+        width: 100%;
+        max-width: 100%;
+        padding: 20px 0px;
+        overflow: hidden;
+        padding-bottom: 105px;
+    }
+    .filter-classes{
+        display: none;
+    }
+    .filter-search{
+        display: none;
+    }
+
+}
