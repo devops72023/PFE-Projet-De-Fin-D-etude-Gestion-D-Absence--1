@@ -13,11 +13,11 @@
     <link rel="stylesheet" href="../../Styles/reset.css">
     <!-- LINK THE STYLE FILE -->
     <link rel="stylesheet" href="../../Styles/Professor/Header.css">
-    <link rel="stylesheet" href="../../Styles/Professor/Dashboard.css">
+    <link rel="stylesheet" href="../../Styles/Professor/ListClasses.css">
+    <link rel="stylesheet" href="../../Styles/Professor/ListEtudiants.css">
 
     <!-- LINK ALL THE JS FILES -->
     <script defer src="../../Scripts/Professor/Header.js"></script>
-    <script defer src="../../Scripts/Professor/Dashboard.js"></script>
 </head>
 <body>
     <header>
@@ -26,7 +26,14 @@
         </div>
         <div class="section-title">
             <h2>Liste d'absence</h2>
-            <span class="detail">Classes</span>
+            
+            <span class="detail">
+                <?php 
+                    if (isset($_GET['etudiant'])){
+                        echo "Etudiants";
+                    }else echo "Classes";
+                ?>
+            </span>
         </div>
         <div class="today-date">
             Lundi 18 Mars 2023
@@ -44,7 +51,7 @@
                     <i class="fas fa-user"></i>
                     <p>Profile</p>
                 </a>
-                <a href="">
+                <a href="./Inc/logout.php">
                     <i class="fas fa-right-from-bracket"></i>
                     <p>Deconnexion</p>
                 </a>

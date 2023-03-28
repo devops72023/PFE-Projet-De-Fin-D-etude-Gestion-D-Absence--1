@@ -1,3 +1,27 @@
+<?php
+    include("Inc/auth.inc.php");
+    if ($fetchedUser){
+        header('Location:/Professor/');
+    }
+
+    if (isset($_POST['submit'])){
+        $username = $_POST['username'];
+        $pwd = $_POST['password'];
+
+        $req = mysqli_query($conn, "SELECT * FROM professeurs WHERE email = '$username' LIMIT 1");
+        $user = mysqli_fetch_assoc($req);
+        if($user){
+            if($user['password'] === $pwd){
+                setcookie('user', json_encode([$user['codeProf'],$user['password']]), time()+60*60*24*3);
+                header('Location:/Professor/');
+            }else{
+                $_SESSION['errors']['pwd'] = "Wrong Password!";
+            }
+        }else{
+            $_SESSION['errors']['user'] = "User not found!";
+        }
+    }
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -28,14 +52,18 @@
                 <p class="rights">All rights reserved &copy; 2023</p>
             </div>
     
-            <form action="/Professor/Dashboard.php" method="post" class="login-form">
+            <form action="#" method="post" class="login-form">
                 <h2 class="connexion">CONNEXION</h2>
                 <div class="form-group username-group">
                     <div class="input-box">
-                        <label for="username" class="label">Nom d'utilisateur</label>
+                        <label for="username" class="label">Email Address</label>
                         <input type="text" id="username" name="username" onfocus="onFocusInput(this)" onblur="onBlurInput(this)">
                         <i class="fas fa-user"></i>
                     </div>
+                    <?php if(isset($_SESSION['errors']['user'])){ ?>
+                        <span class="error"><?= $_SESSION['errors']['user']; ?></span>
+                    <?php }unset($_SESSION['errors']['user']); ?>
+                        
                 </div>
                 <div class="form-group password-group">
                     <div class="input-box">
@@ -43,6 +71,9 @@
                         <input type="password" id="password" name="password" onfocus="onFocusInput(this)" onblur="onBlurInput(this)">
                         <i class="fas fa-lock"></i>
                     </div>
+                    <?php if(isset($_SESSION['errors']['pwd'])){ ?>
+                        <span class="error"><?= $_SESSION['errors']['pwd']; ?></span>
+                    <?php }unset($_SESSION['errors']['pwd']); ?>
                 </div>
                 <div class="form-group isWho-group">
                     <div class="etudiant">

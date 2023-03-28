@@ -32,27 +32,47 @@
     font-family: Jost-light;
     src: url(fonts/Jost/Jost-Light.ttf);
 }
-
-*{
-    padding: 0;
-    margin: 0;
-    box-sizing: border-box;
-}
-
 :root{
     --dark: #1b2149;
     --secondary: #7b57df;
     --light-secondary: #9747ff23;
     --light: #ffffff;
     --gray: #797d94;
-    --pinky: #eb5769;
+    --red: #eb5769;
     --green: #5dc983;
-    --orange: #f2af4c;
+    --yellow: #f2af4c;
     --bg-color: #f7f7fd;
 
     font-family: Poppins;
     color: var(--dark);
 }
+/* width */
+::-webkit-scrollbar {
+  width: 10px;
+}
+/* Track */
+::-webkit-scrollbar-track {
+    background: var(--light);
+}
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: var(--gray); 
+}
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: var(--dark); 
+}
+
+*{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+*::selection{
+    background: var(--dark);
+    color: var(--light);
+}
+
 body{
     width: 100%;
     min-height: 100vh;

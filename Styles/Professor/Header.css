@@ -109,11 +109,11 @@ header{
 
 .profile--menu::before{
     content: '';
-    width: 15px;
-    height: 15px;
+    width: 10px;
+    height: 10px;
     position: absolute;
     right: 10px;
-    top: -7.5px;
+    top: -5px;
     z-index: -1;
     transform: rotate(45deg);
     background: var(--light);
@@ -289,7 +289,7 @@ nav ul li:nth-child(4).active ~ .indicator{
         width: 40px;
     }
     .profile .profile--menu{
-        top: 80px;
+        top: 20px;
     }
     body{
         display: flex;
@@ -342,6 +342,7 @@ nav ul li:nth-child(4).active ~ .indicator{
         transform: translateY(-25px);
         fill: var(--light);
     }
+    nav ul li:nth-child(3) button .icon path:nth-child(2){transition: all .3s ease-in-out;}
     nav ul li:nth-child(3).active button .icon path:nth-child(2){
         stroke: var(--secondary);
     }

@@ -1,5 +1,6 @@
 body{
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
 }
@@ -139,6 +140,13 @@ body{
 }
 .input-box:has(input:focus) i{
     color: var(--secondary);
+}
+.error{
+    color: var(--red);
+    font-family: Jost;
+    font-size: 14px;
+    margin-left: 5px;
+    margin-top: 5px;
 }
 
 .isWho-group{
