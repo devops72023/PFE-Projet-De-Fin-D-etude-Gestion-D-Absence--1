@@ -1,24 +1,35 @@
 <?php
-    include("Inc/auth.inc.php");
-    if ($fetchedUser){
-        header('Location:/Professor/');
+    session_start();
+    include 'Inc/db.inc.php';
+
+    // Check if the user is already logged in!!
+    if(isset($_SESSION['user'])){
+        $uid = json_decode($_SESSION['user']);
+        $req = mysqli_query($conn, "SELECT * From professeurs WHERE codeProf='$uid[0]' AND password='$uid[1]'");
+        $res = mysqli_fetch_assoc($req);
+
+        if(!mysqli_error($conn) and $uid[2] == 'professor'){
+            header('Location:/Professor/');
+        }
     }
 
     if (isset($_POST['submit'])){
         $username = $_POST['username'];
-        $pwd = $_POST['password'];
-
-        $req = mysqli_query($conn, "SELECT * FROM professeurs WHERE email = '$username' LIMIT 1");
-        $user = mysqli_fetch_assoc($req);
-        if($user){
-            if($user['password'] === $pwd){
-                setcookie('user', json_encode([$user['codeProf'],$user['password']]), time()+60*60*24*3);
-                header('Location:/Professor/');
+        $pwd = md5($_POST['password']);
+        $isWho = $_POST['isWho'];
+        if($isWho === 'professor'){
+            $req = mysqli_query($conn, "SELECT * FROM professeurs WHERE email = '$username' LIMIT 1");
+            $user = mysqli_fetch_assoc($req);
+            if($user){
+                if($user['password'] === $pwd){
+                    $_SESSION['user'] = json_encode([$user['codeProf'], $user['password'],'professor']);
+                    header('Location:/Professor/');
+                }else{
+                    $_SESSION['errors']['pwd'] = "Wrong Password!";
+                }
             }else{
-                $_SESSION['errors']['pwd'] = "Wrong Password!";
+                $_SESSION['errors']['user'] = "User not found!";
             }
-        }else{
-            $_SESSION['errors']['user'] = "User not found!";
         }
     }
 ?>
@@ -60,9 +71,12 @@
                         <input type="text" id="username" name="username" onfocus="onFocusInput(this)" onblur="onBlurInput(this)">
                         <i class="fas fa-user"></i>
                     </div>
-                    <?php if(isset($_SESSION['errors']['user'])){ ?>
-                        <span class="error"><?= $_SESSION['errors']['user']; ?></span>
-                    <?php }unset($_SESSION['errors']['user']); ?>
+                    <?php
+                        if(isset($_SESSION['errors']['user'])){
+                            echo "<span class='error'>{$_SESSION['errors']['user']}</span>";
+                        }
+                        unset($_SESSION['errors']['user']);
+                    ?>
                         
                 </div>
                 <div class="form-group password-group">
@@ -71,9 +85,12 @@
                         <input type="password" id="password" name="password" onfocus="onFocusInput(this)" onblur="onBlurInput(this)">
                         <i class="fas fa-lock"></i>
                     </div>
-                    <?php if(isset($_SESSION['errors']['pwd'])){ ?>
-                        <span class="error"><?= $_SESSION['errors']['pwd']; ?></span>
-                    <?php }unset($_SESSION['errors']['pwd']); ?>
+                    <?php 
+                        if(isset($_SESSION['errors']['pwd'])){
+                            echo "<span class='error'>{$_SESSION['errors']['pwd']}</span>";
+                        }
+                        unset($_SESSION['errors']['pwd']);
+                    ?>
                 </div>
                 <div class="form-group isWho-group">
                     <div class="etudiant">
@@ -81,7 +98,7 @@
                         <label for="etudiant">Etudiant</label>
                     </div>
                     <div class="professor">
-                        <input type="radio" id="professor" value="professor" name="isWho">
+                        <input type="radio" checked id="professor" value="professor" name="isWho">
                         <label for="professor">Professeur</label>
                     </div>
                 </div>

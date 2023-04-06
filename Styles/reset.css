@@ -78,3 +78,22 @@ body{
     min-height: 100vh;
     background-color: var(--bg-color);
 }
+@keyframes fadeIn {
+    0%{
+        opacity: 0;
+        margin-top: -20px;
+    }
+    100%{
+        opacity: 1;
+        margin-top: unset;
+    }
+}
+@keyframes fadeOut {
+    0%{
+        opacity: 1;
+    }
+    100%{
+        opacity: 0;
+        margin-top: -20px;
+    }
+}

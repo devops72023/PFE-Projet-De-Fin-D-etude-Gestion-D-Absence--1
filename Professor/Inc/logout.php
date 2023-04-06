@@ -1,8 +1,6 @@
 <?php
-    include '../Inc/auth.inc.php';
-    if (!$fetchedUser){
-        header('Location:/');
-    }
-    setcookie("user", "", time() - 3600, '/');
+    session_start();
+    include '../Inc/prof_auth.inc.php';
+    session_destroy();
     header('Location:/');
 ?>

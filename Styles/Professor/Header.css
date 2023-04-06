@@ -119,7 +119,9 @@ header{
     background: var(--light);
     box-shadow: rgba(100, 100, 111, 0.1) -3px -3px 3px 0px;
 }
-.profile--menu a{
+.profile--menu a,
+.profile--menu button{
+    all: unset;
     display: flex;
     gap: 10px;
     align-items: center;
@@ -127,13 +129,15 @@ header{
     padding: 7px 14px;
     color: var(--gray);
     border-radius: 5px;
+    cursor: pointer;
     transition: all .3s ease-in-out;
 }
-.profile--menu a:nth-child(1){
+.profile--menu button{
     color: var(--light);
     background: var(--gray);
 }
-.profile--menu a:hover{
+.profile--menu a:hover,
+.profile--menu button:hover{
     color: var(--light);
     background: var(--dark);
 }

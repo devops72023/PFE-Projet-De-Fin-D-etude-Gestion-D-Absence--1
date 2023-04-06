@@ -15,6 +15,14 @@ main{
     justify-content: center;
     align-items: center;
     gap: 20px;
+    animation: fadeIn .250s forwards ease-in-out;
+}
+#p{
+    animation: fadeIn .250s forwards ease-in-out;
+}
+.remove-content, 
+#p.remove-content{
+    animation: fadeOut .250s forwards ease-in-out;
 }
 .teacher{
     width: 100%;
@@ -33,14 +41,22 @@ main{
     display: flex;
     gap: 10px;
 }
-.filter-classes a{
-    text-decoration: none;
+.filter-classes button{
+    all: unset;
     color: var(--gray);
     font-size: 14px;
+    cursor: pointer;
+    transition: all .3s ease-in-out;
 }
-.filter-classes a.strong{
+.filter-classes button.strong{
     font-family: Poppins-medium;
-    font-size: 14px;
+    color: var(--dark);
+}
+.filter-classes:has(button:hover) button.strong{
+    font-family: Poppins;
+    color: var(--gray);
+}.filter-classes:has(button:hover) button:hover{
+    font-family: Poppins-medium;
     color: var(--dark);
 }
 .filter-search{

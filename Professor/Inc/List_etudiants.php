@@ -150,5 +150,3 @@
         </table>
     </div>
 </div>
-
-<script src="../../Scripts/Professor/dropdown.js"></script>
