@@ -1,4 +1,5 @@
 import ListClasses from "./list_classes/Classes_container.js";
+import { loadData } from "../utils.js";
 
 let root = document.getElementById('root');
 
@@ -22,16 +23,12 @@ function goTo(callback_func){
         }, 250)
     }
 }
-async function loadUser(){
-    let req = await fetch('/Professor/Inc/Api/CurrentUser.inc.php')
-    let res = req.json()
-    return res;
-}
-async function loadClassesList(){
-    header__title = "Liste d'absence";
-    header__title__details = "Classes";
 
-    let current_User = await loadUser();
+async function loadClassesList(){
+    header__title.innerHTML = "Liste d'absence";
+    header__title__details.innerHTML = "Classes";
+
+    let current_User = await loadData('/Professor/Inc/Api/CurrentUser.inc.php');
     root.appendChild(new ListClasses(current_User).render());
 }
 
@@ -52,3 +49,5 @@ statistiqueBtn.addEventListener('click', () =>{
 })
 
 
+
+export {root, goTo, header__title, header__title__details, today__date, prof__name}

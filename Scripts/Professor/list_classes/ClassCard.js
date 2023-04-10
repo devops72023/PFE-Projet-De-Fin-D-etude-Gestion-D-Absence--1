@@ -1,16 +1,33 @@
+import { wichHourNow } from "../../utils.js";
+import ListeAbsence from "./ListeAbsence.js";
+import {root, goTo, header__title__details} from '../Professor.js'
+
 export default class ClassCard{
-    constructor(options){
-        this.options = options;
+    constructor(seance){
+        this.seance = seance;
         this.card =  document.createElement('div');
     }
     configCard(){
         this.card.setAttribute('class', 'card');
+        let img = this.seance.nomClass.toLowerCase() + '-1.png';
         this.card.innerHTML = `<div class="branch-img" >
-                                <img src="../../Images/branch-images/${this.options.image}" />
+                                <img src="../../Images/branch-images/${img}" />
                                 </div>
-                                <h2 class="class-level">${this.options.level}</h2>
-                                <h3 class="class-name">${this.options.name}</h3>
-                                <span class="this"></span>`
+                                <h2 class="class-level">${this.seance.niveauClass}</h2>
+                                <h3 class="class-name">${this.seance.nomClass}</h3>
+                                `
+        if(this.seance.heure == wichHourNow()) this.card.innerHTML += '<span class="this"></span>'
+        
+        this.card.addEventListener('click', () => {
+            goTo(()=>{
+                header__title__details.innerHTML = "Etudiants";
+                const list =  new ListeAbsence(
+                                                this.seance.codeClass,
+                                                this.seance.duree
+                                                );
+                root.appendChild(list.render());
+            })
+        })
     }
     render(){
         this.configCard();

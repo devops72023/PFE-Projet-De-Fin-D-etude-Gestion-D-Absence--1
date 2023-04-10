@@ -11,15 +11,4 @@
         }
         return false;
     }
-
-    function weekDay($name){
-        switch ($name) {
-            case 'Mon':
-                # code...
-                break;
-            
-            default:
-                # code...
-                break;
-        }
-    }
+    

@@ -100,7 +100,7 @@ main{
     position: relative;
     margin-right: auto;
 }
-.choosed-date{
+.choosed-option{
     display: flex;
     width: 200px;
     height: 35px;
@@ -116,10 +116,10 @@ main{
     box-shadow: rgba(50, 50, 93, 0.1) 0px 13px 27px -5px,
                 rgba(0, 0, 0, 0.2) 0px 5px 10px -8px;
 }
-.choosed-date i{
+.choosed-option i{
     transition: all .3s ease-in-out;
 }
-.dates-list{
+.options-list{
     position: absolute;
     top: 0px;
     width: 200px;
@@ -133,7 +133,7 @@ main{
                 rgba(0, 0, 0, 0.2) 0px 5px 10px -8px;
     transition: all .3s ease-in-out;
 }
-.dates-list .option{
+.options-list .option{
     height: 30px;
     font-size: 14px;
     display: flex;
@@ -141,10 +141,10 @@ main{
     justify-content: center;
     cursor: pointer;
 }
-.dates-list .option:hover{
+.options-list .option:hover{
     background: var(--light-secondary);
 }
-.show-dates-list{
+.show-options-list{
     opacity: 1;
     visibility: visible;
     transform: translateY(45px);
@@ -196,8 +196,8 @@ main{
 }
 .class-name{
     position: absolute;
-    left: 70px;
-    bottom: 20px;
+    left: 100px;
+    bottom: 25px;
     color: var(--light);
     font-size: 35px;
     font-family: Poppins-light;
@@ -207,7 +207,7 @@ main{
 .this{
     position: absolute;
     right: 50px;
-    bottom: 20px;
+    bottom: 25px;
     height: 15px;
     width: 15px;
     border-radius: 50%;
