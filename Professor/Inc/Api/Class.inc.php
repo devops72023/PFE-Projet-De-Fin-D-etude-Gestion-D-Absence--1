@@ -10,7 +10,7 @@
 
     if(isset($_GET['codeClass'])){
         $codeClass = $_GET['codeClass'];
-        $req = mysqli_query($conn, "SELECT * FROM etudiants WHERE codeClasse='$codeClass'");
+        $req = mysqli_query($conn, "SELECT * FROM etudiants WHERE codeClasse='$codeClass' ORDER BY numOrdre ASC");
         $Etudiants = array();
         while ($row = mysqli_fetch_array($req)){
             $Etudiants[count($Etudiants)] = renderEtudiant($row);

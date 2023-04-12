@@ -1,9 +1,9 @@
 import { loadData } from "../../utils.js";
 
 export default class ListeAbsence{
-    constructor(codeClass, duree){
-        this.codeClass = codeClass;
-        this.duree = duree;
+    constructor(data){
+        this.data = data;
+        this.toSendData = [];
         this.container = document.createElement("div");
         this.listHeader = document.createElement("div");
         this.listTitle = document.createElement("h2");
@@ -57,27 +57,59 @@ export default class ListeAbsence{
 
         this.searchForm.setAttribute('class', 'filter-search');
         this.searchForm.innerHTML = `<input type="search" id="search-box" name="search-text" placeholder="Recherche etudiant">
-                                     <button type="submit name="submit"><i class="fas fa-search"></i></button>`
+                                     <button type="submit name="submit"><i class="fas fa-search"></i></button>`;
+
+
         this.saveBtn.setAttribute('class', 'list-save');
         this.saveBtn.innerHTML = 'Enregistrer'
+        this.saveBtn.addEventListener('click',()=>{
+            this.toSendData = [];
+            let hours = this.list.querySelectorAll('.hour');
+            hours.forEach(item=>{
+                let etudiant = {
+                    cne: item.children[0].dataset.id,
+                    date: this.data.date,
+                    hour: item.children[0].value,
+                    absent: item.children[0].checked
+                }
+                this.toSendData.push(etudiant)
+            })
+            console.log({'data': this.toSendData})
+            fetch('/Professor/Inc/Api/Absence.inc.php',{
+                method: 'POST',
+                headers : {
+                    'Content-Type': 'application/json; charset=utf-8',
+                },
+                body: JSON.stringify({'data': this.toSendData})
+            })
+            .then(req => req.json())
+            .then(res => console.log(res));
+
+        });
         
         this.listHeader.append(this.listTitle, this.filterForm, this.searchForm, this.saveBtn)
     }
-    renderEtudiantRow(data){
-        let row = `<tr data-id='${data.cne}'>
-                       <td class="orderNb">${data.orderNb}</td>
+    async renderEtudiantRow(user){
+        let row = `<tr data-id='${user.cne}'>
+                       <td class="orderNb">${user.orderNb}</td>
                        <td class="etudiant-name">
                            <div class="name-data">
                                <img src="../../Profile-pictures/Etudiants/etudiant.png" alt="Adelghani El Mouak" />
-                               <p>${data.prenomEtudiant} ${data.nomEtudiant}</p>
+                               <p>${user.prenomEtudiant} ${user.nomEtudiant}</p>
                            </div>
                        </td>`
-        let num = 1;
-        for(let i = 0; i<this.duree; i++) {
-            row += `<td class="hour"><input type="checkbox" name="hour1" value="${num}" /></td>`;
-            num += 1;
+        for(let i = 0; i<this.data.duree; i++){
+            let isAbsent = await loadData(`/Professor/Inc/Api/Absence.inc.php?isAbsent=yes&cne=${user.cne}&date=${this.data.date}&hour=${i+1}`);
+            if(isAbsent){
+                row += `<td class="hour"><input type="checkbox" data-id="${user.cne}" value="${i+1}" checked/></td>`;
+            }
+            else{
+                row += `<td class="hour"><input type="checkbox" data-id="${user.cne}" value="${i+1}" /></td>`;
+            }
         }
-        row += `<td class="comment"><input type="text" name="comment" placeholder="Entrez votre commentaire ici ..." /></td>
+        row += `<td class="comment">
+                    <input type="text" name="comment" placeholder="Entrez votre commentaire ici ..." />
+                </td>
                 </tr>`
         return row;
     }
@@ -85,32 +117,38 @@ export default class ListeAbsence{
         this.listContainer.setAttribute('class', 'etudiant-list-container')
         this.list.setAttribute('class', 'etudiant-list');
         let hoursTitle = [
-            '<td class="hour">8:30</td>',
-            '<td class="hour">9:30</td>',
-            '<td class="hour">10:30</td>',
-            '<td class="hour">11:30</td>'
+            '<td class="hour1">8:30</td>',
+            '<td class="hour2">9:30</td>',
+            '<td class="hour3">10:30</td>',
+            '<td class="hour4">11:30</td>'
         ]
         let thead = `<tr>
                                         <td class="orderNb">N ordre</td>
                                         <td class="name">Non et Prenom</td>`
-        for(let i = 0; i < this.duree; i++){
+        for(let i = 0; i < this.data.duree; i++){
             thead += hoursTitle[i];
         }
         thead += `<td class="comment">Commentaire</td>
                   </tr>`;
         this.listHead.innerHTML = thead;
 
-        let data = await loadData(`/Professor/Inc/Api/Class.php?codeClass=${this.codeClass}`);
+        let data = await loadData(`/Professor/Inc/Api/Class.inc.php?codeClass=${this.data.codeClass}`);
+
+        if(data.length != 0){
+            data.forEach(async(item) => {
+                let dict = {
+                            cne:item.cne,
+                            orderNb:item.orderNb,
+                            prenomEtudiant:item.prenom,
+                            nomEtudiant:item.nom,
+                            date: this.data.date
+                        }
+                let row = await this.renderEtudiantRow(dict);
+                this.listBody.innerHTML += row;
+            })
+        }else this.listBody.innerHTML = '<tr><td colspan="5">Aucun Etudiant</td><td'
+
         
-        data.forEach(item => {
-            let dict = {
-                        cne:item.cne,
-                        orderNb:item.orderNb,
-                        prenomEtudiant:item.prenom,
-                        nomEtudiant:item.nom
-                    }
-            this.listBody.innerHTML += this.renderEtudiantRow(dict)
-        })
         this.list.append(this.listHead,this.listBody)
         this.listContainer.appendChild(this.list)
     }

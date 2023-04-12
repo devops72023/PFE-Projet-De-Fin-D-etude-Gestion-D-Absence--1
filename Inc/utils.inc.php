@@ -38,23 +38,9 @@
         return $seanceObj;
     }
 
-    function weekDay($name){
-        switch ($name) {
-            case 'Mon':
-                return 0;
-            case 'Tue':
-                return 1;
-            case 'Wed':
-                return 2;
-            case 'Thu':
-                return 3;
-            case 'Fri':
-                return 4;
-            case 'Sat':
-                return 5;
-            case 'Sun':
-                return 6;
-            default:
-                return null;
-        }
+    function isAbsent($conn, $cne, $date, $hour){
+        $req = mysqli_query($conn, "SELECT * FROM abscenter WHERE CNE='$cne'AND date='$date' AND heure='$hour'") or die(mysqli_error($conn));
+        $res = mysqli_fetch_array($req);
+        if(isset($res)) return true;
+        return false;
     }

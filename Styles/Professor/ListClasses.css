@@ -17,11 +17,7 @@ main{
     gap: 20px;
     animation: fadeIn .250s forwards ease-in-out;
 }
-#p{
-    animation: fadeIn .250s forwards ease-in-out;
-}
-.remove-content, 
-#p.remove-content{
+.remove-content{
     animation: fadeOut .250s forwards ease-in-out;
 }
 .teacher{
@@ -245,11 +241,11 @@ main{
         width: 100%;
         max-width: 100%;
         padding: 0px 0px;
-        overflow: hidden;
         padding-bottom: 105px;
     }
     .filter-classes{
-        display: none;
+        flex-wrap: wrap;
+        margin: 0px 20px;
     }
     .filter-search{
         display: none;

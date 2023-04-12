@@ -3,8 +3,9 @@ import ListeAbsence from "./ListeAbsence.js";
 import {root, goTo, header__title__details} from '../Professor.js'
 
 export default class ClassCard{
-    constructor(seance){
+    constructor(seance, seanceDate){
         this.seance = seance;
+        this.seanceDate = seanceDate;
         this.card =  document.createElement('div');
     }
     configCard(){
@@ -21,10 +22,11 @@ export default class ClassCard{
         this.card.addEventListener('click', () => {
             goTo(()=>{
                 header__title__details.innerHTML = "Etudiants";
-                const list =  new ListeAbsence(
-                                                this.seance.codeClass,
-                                                this.seance.duree
-                                                );
+                const list =  new ListeAbsence({
+                                                    codeClass: this.seance.codeClass,
+                                                    date: this.seanceDate,
+                                                    duree: this.seance.duree
+                                                });
                 root.appendChild(list.render());
             })
         })

@@ -28,8 +28,9 @@ export default class ListClasses{
         target.classList.add('strong');
     }
     loadClasses(filter){
-        let dt = this.choosed_date.children[0].dataset.value; // get the choosen date
-        this.createClassesComponent(`/Professor/Inc/Api/Seances.inc.php?jour=${dt}&filter=${filter}`);
+        let day = this.choosed_date.children[0].dataset.value; // get the choosen day
+        let date = this.choosed_date.children[0].dataset.date; // get the choosen date
+        this.createClassesComponent(date, `/Professor/Inc/Api/Seances.inc.php?jour=${day}&filter=${filter}`);
     }
     createTeacherComponent(){
         let genderWord = this.currentUser.gender == "man" ? "M" : "Mme";
@@ -84,13 +85,29 @@ export default class ListClasses{
             return date.toLocaleDateString('fr-FR', { weekday: 'long' });        
         }
         function getDate(stimp){
-            return new Date(stimp).getDate() + '/' + new Date(stimp).getMonth() + '/' + new Date(stimp).getFullYear();
+            let date = new Date(stimp);
+            let month = date.getMonth() + 1; // getMonth() returns a zero-based index, so we need to add 1
+            let day = date.getDate();
+            let year = date.getFullYear();
+
+            // Add leading zeros to month and day if they are less than 10
+            if (month < 10) {
+                month = "0" + month;
+            } 
+            if (day < 10) {
+                day = "0" + day;
+            }
+            return year + "-" + month + "-" + day;
         }
         function weekDays(stimp){
             let date = new Date(stimp)
             let list = '';
             for (let i = 0; i < 7; i++){
-                list += `<div class="option" data-value="${new Date(stimp).getDay()}">${getDayName(stimp)+" "+getDate(stimp)}</div>`;
+                list += `<div   class="option" 
+                                data-date="${getDate(stimp)}"
+                                data-value="${new Date(stimp).getDay()}">
+                                ${getDayName(stimp)+" "+getDate(stimp)}
+                        </div>`;
                 stimp = date.setDate(date.getDate() - 1);
             }
             return list;
@@ -105,7 +122,7 @@ export default class ListClasses{
         // \   <i class="fas fa-caret-down"></i>
         //     `
         this.choosed_date.innerHTML = `
-        <div class="the-date" data-value="6">samedi 8/3/2023</div>
+        <div class="the-date" data-value="6" data-date="2023-04-08">samedi 8/3/2023</div>
         \   <i class="fas fa-caret-down"></i>`
         this.dates_list.setAttribute('class', 'options-list');
         this.dates_list.setAttribute('id', 'options-list');
@@ -119,6 +136,7 @@ export default class ListClasses{
                 element.classList.remove('choosed');
                 target.classList.add('choosed');
                 choosedDate.children[0].dataset.value = target.dataset.value;
+                choosedDate.children[0].dataset.date = target.dataset.date;
                 choosedDate.children[0].innerHTML = target.innerHTML;
             });
         }
@@ -133,20 +151,23 @@ export default class ListClasses{
         this.date_form.appendChild(this.filter_dates)
         this.filter_section.append(this.filter_classes, this.search_form, this.date_form)
     }
-    async createClassesComponent(url){
+    async createClassesComponent(date, url){
         this.classes_card.setAttribute('class', 'classes-cards')
         let seances = await loadData(url) // get all the seances from the api
         this.classes_card.innerHTML = '';
-        for(let sc=0; sc<seances.length; sc++){
-            this.classes_card.appendChild(new ClassCard(seances[sc]).render())
-        }
+        if (seances.length != 0 ){
+            seances.forEach(seance => {
+                this.classes_card.appendChild(new ClassCard(seance, date).render())
+            })
+        }else this.classes_card.innerHTML = 'Aucune seance aujourd\'hui';
     }
     render(){
         this.createTeacherComponent();
         this.createFilterComponent();
-        let dt = this.choosed_date.children[0].dataset.value; // get the choosen date
+        let day = this.choosed_date.children[0].dataset.value; // get the choosen day
+        let date = this.choosed_date.children[0].dataset.date; // get the choosen date
         this.classes_card.dataset.filter = 'all'
-        this.createClassesComponent(`/Professor/Inc/Api/Seances.inc.php?jour=${dt}&filter=all`);
+        this.createClassesComponent(date,`/Professor/Inc/Api/Seances.inc.php?jour=${day}&filter=all`);
 
         this.container.setAttribute('class','liste-classes-container');
         this.container.append(this.teacher_div, this.filter_section,this.classes_card);
