@@ -11,10 +11,11 @@
         $cne = $_GET['cne'];
         $date = $_GET['date']; 
         $hour = $_GET['hour'];
-        if(isAbsent($conn, $cne, $date, $hour)){
-            echo json_encode(true);
+        $checkAbsence = isAbsent($conn, $cne, $date, $hour);
+        if($checkAbsence['isAbsent']){
+            echo json_encode($checkAbsence);
         }else{
-            echo json_encode(false);
+            echo json_encode($checkAbsence);
         }
     }
     if(isset($_POST)){
@@ -26,14 +27,16 @@
                 $cne=$item['cne'];
                 $date=$item['date'];
                 $hour=$item['hour'];
-                if(isAbsent($conn, $cne, $date, $hour) and !$item['absent']){
+                $cmnt=$item['comment'];
+                $checkAbsence = isAbsent($conn, $cne, $date, $hour);
+                if($checkAbsence['isAbsent'] and !$item['absent']){
                     $req = mysqli_query($conn, "DELETE FROM abscenter WHERE CNE='$cne'AND date='$date' AND heure='$hour'") or die(mysqli_error($conn));
                 }
-                elseif(!isAbsent($conn, $cne, $date, $hour) and $item['absent']){
-                    $req = mysqli_query($conn, "INSERT INTO `abscenter`(`CNE`, `date`, `heure`, `justification`, `commentaire`) VALUES ('$cne','$date','$hour','0','None')") or die(mysqli_error($conn));
+                elseif(!$checkAbsence['isAbsent'] and $item['absent']){
+                    $req = mysqli_query($conn, "INSERT INTO `abscenter`(`CNE`, `date`, `heure`, `justification`, `commentaire`) VALUES ('$cne','$date','$hour','0','$cmnt')") or die(mysqli_error($conn));
                 }
             }
-            echo json_encode(['code'=>200, 'message'=>'The absence submited successfully!']);
+            echo json_encode(['data' => $data]);
         }
     }
 ?>

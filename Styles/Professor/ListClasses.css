@@ -180,10 +180,17 @@ main{
     width: 140px;
     transition: all .3s ease-in-out;
 }
+.class-periode{
+    position: absolute;
+    left: 20px;
+    top: 10px;
+    color: var(--gray);
+    font-family: Jost-light;
+}
 .class-level{
     position: absolute;
     left: 20px;
-    bottom: 30px;
+    bottom: 18px;
     height: 100px;
     color: var(--light);
     font-size: 95px;
@@ -192,13 +199,21 @@ main{
 }
 .class-name{
     position: absolute;
-    left: 100px;
-    bottom: 25px;
+    left: 90px;
+    bottom: 35px;
     color: var(--light);
     font-size: 35px;
     font-family: Poppins-light;
     transition: all .3s ease-in-out;
     height: 40px;
+}
+.class-total{
+    position: absolute;
+    left: 90px;
+    bottom: 7px;
+    color: var(--gray);
+    font-family: Jost-light;
+    transition: all .3s ease-in-out;
 }
 .this{
     position: absolute;

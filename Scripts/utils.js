@@ -1,7 +1,7 @@
 async function loadData(url){
     let req = await fetch(url)
-    let res = req.json()
-    return res;
+    let res = await req.json()
+    return [res,req];
 }
 function wichHourNow(){
     switch(new Date().getHours().toString()){

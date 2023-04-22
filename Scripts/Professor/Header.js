@@ -3,13 +3,6 @@ let profile_menu = document.querySelectorAll('.profile--image')[0];
 let profile = document.querySelectorAll('.profile')[0];
 
 profile_menu.addEventListener('click', ()=>{
-    // document.body.requestFullscreen()
-    // .then(() => {
-    //     profile_menu.addEventListener('click', ()=>{});
-    // })
-    // .catch(() => {
-    //     return;
-    // })
     profile.classList[1] ==  "show-profile-menu" ? profile.classList.remove('show-profile-menu') : profile.classList.add('show-profile-menu');
 })
 

@@ -33,14 +33,14 @@
     src: url(fonts/Jost/Jost-Light.ttf);
 }
 :root{
-    --dark: #1b2149;
+    --dark: rgb(27, 33, 73);
     --secondary: #7b57df;
     --light-secondary: #9747ff23;
     --light: #ffffff;
     --gray: #797d94;
     --red: #eb5769;
     --green: #5dc983;
-    --yellow: #f2af4c;
+    --yellow: rgb(242, 175, 76);
     --bg-color: #f7f7fd;
 
     font-family: Poppins;
@@ -96,4 +96,10 @@ body{
         opacity: 0;
         margin-top: -20px;
     }
+}
+input:-webkit-autofill,
+input:-webkit-autofill:hover, 
+input:-webkit-autofill:focus, 
+input:-webkit-autofill:active{
+    -webkit-box-shadow: 0 0 0 30px white inset !important;
 }

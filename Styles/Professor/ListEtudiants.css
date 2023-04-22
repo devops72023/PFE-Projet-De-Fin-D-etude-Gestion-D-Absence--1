@@ -28,10 +28,13 @@
     font-family: Jost-light;
 }
 .list-save{
+    position: relative;
     all: unset;
     height: 35px;
-    line-height: 35px;
-    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
     background: var(--gray);
     color: var(--light);
     padding: 0px 20px;
@@ -42,6 +45,25 @@
 }
 .list-save:hover{
     background: var(--dark);
+}
+.list-save .sending{
+    /* position: absolute; */
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: var(--green);
+    animation: sending .5s alternate infinite ease-in-out;
+    transition: all .3s ease-in-out;
+}
+@keyframes sending {
+    0%{
+        width: 5px;
+        height: 5px;
+    }
+    100%{
+        width: 25px;
+        height: 25px;
+    }
 }
 .etudiant-list-container{
     width: 100%;

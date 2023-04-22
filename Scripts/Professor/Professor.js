@@ -1,5 +1,6 @@
 import ListClasses from "./list_classes/Classes_container.js";
 import { loadData } from "../utils.js";
+import Setting from "./profile/Setting.js";
 
 let root = document.getElementById('root');
 
@@ -7,6 +8,7 @@ let header__title = document.getElementById('header-title');
 let header__title__details = document.getElementById('header-title-details');
 let today__date = document.getElementById('today-date');
 let prof__name = document.getElementById('prof-name');
+let prof__image = document.getElementById('prof-img');
 
 let listBtn =  document.getElementById('liste-classes-btn');
 let statistiqueBtn = document.getElementById('statistique-btn');
@@ -25,15 +27,26 @@ function goTo(callback_func){
 }
 
 async function loadClassesList(){
+    let [res,req] = await loadData('/Professor/Inc/Api/CurrentUser.inc.php');
+    let genderWord = res.gender == "man" ? "M" : "Mme";
     header__title.innerHTML = "Liste d'absence";
     header__title__details.innerHTML = "Classes";
+    prof__name.innerHTML = genderWord+". "+res.nomProf
+    prof__image.setAttribute("src",`/Profile-pictures/Teachers/${res.image}`)
+    prof__image.setAttribute("alt",`${res.nomProf} ${res.prenomProf}`)
 
-    let current_User = await loadData('/Professor/Inc/Api/CurrentUser.inc.php');
-    root.appendChild(new ListClasses(current_User).render());
+    root.appendChild(new ListClasses(res).render());
+}
+
+async function loadSettings(){
+    let [res,req] = await loadData('/Professor/Inc/Api/CurrentUser.inc.php');
+    header__title.innerHTML = "Parametres";
+    header__title__details.innerHTML = "";
+    root.appendChild(new Setting(res).render());
 }
 
 window.addEventListener('load', () =>{
-    loadClassesList();
+    loadClassesList()
 })
 
 listBtn.addEventListener('click', () =>{
@@ -46,6 +59,9 @@ statistiqueBtn.addEventListener('click', () =>{
         p.innerHTML = 'Hello this statistique';
         root.appendChild(p);
     })
+})
+parametreBtn.addEventListener('click', () => {
+    goTo(loadSettings)
 })
 
 

@@ -15,6 +15,7 @@
     <link rel="stylesheet" href="../../Styles/Professor/Header.css">
     <link rel="stylesheet" href="../../Styles/Professor/ListClasses.css">
     <link rel="stylesheet" href="../../Styles/Professor/ListEtudiants.css">
+    <link rel="stylesheet" href="../../Styles/Professor/Setting.css">
 
     <!-- LINK ALL THE JS FILES -->
     <script defer src="../../Scripts/Professor/Header.js"></script>
@@ -33,7 +34,7 @@
         </div>
         <div class="profile">
             <div class="profile--image">
-                <img src="../Profile-pictures/Teachers/prof.png" alt="Professor name">
+                <img id="prof-img">
                 <div class="name">
                     <p id="prof-name">M. Melk</p>
                     <i class="fas fa-caret-down"></i>

@@ -40,7 +40,10 @@
         $req = mysqli_query($conn, $sceances) or die(mysqli_error($conn));
         $res = array();
         while ($row = mysqli_fetch_assoc($req)){
-            $res[count($res)] = renderSeances($row);
+            $cc = $row['codeClasse'];
+            $total = mysqli_query($conn,"SELECT COUNT(*) AS total FROM etudiants WHERE codeClasse='$cc'");
+            $total = mysqli_fetch_array($total);
+            $res[count($res)] = renderSeances($row, $total['total']);
         }
         echo json_encode($res);
     }

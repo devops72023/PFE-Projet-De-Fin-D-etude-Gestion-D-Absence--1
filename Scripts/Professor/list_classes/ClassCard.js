@@ -14,8 +14,10 @@ export default class ClassCard{
         this.card.innerHTML = `<div class="branch-img" >
                                 <img src="../../Images/branch-images/${img}" />
                                 </div>
+                                <h4 class="class-periode">${this.seance.period}</h4>
                                 <h2 class="class-level">${this.seance.niveauClass}</h2>
                                 <h3 class="class-name">${this.seance.nomClass}</h3>
+                                <h4 class="class-total">${this.seance.total} Etudiants</h4>
                                 `
         if(this.seance.heure == wichHourNow()) this.card.innerHTML += '<span class="this"></span>'
         

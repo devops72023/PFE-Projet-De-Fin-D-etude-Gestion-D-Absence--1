@@ -13,7 +13,7 @@ export default class ListClasses{
         this.filter_sl_only = document.createElement('button');
         this.filter_fl_only = document.createElement('button');
 
-        this.search_form = document.createElement('form');
+        // this.search_form = document.createElement('form');
         this.date_form = document.createElement('form');
         this.filter_dates = document.createElement('div');
         this.choosed_date = document.createElement('div');
@@ -70,14 +70,15 @@ export default class ListClasses{
         this.filter_classes.append(this.filter_all,this.filter_sl_only,this.filter_fl_only);
 
         // config the search field
-        this.search_form.setAttribute('class','filter-search')
-        this.search_form.innerHTML =`\n
-                                    <input type="search" id="search-box" name="search-text" placeholder="Recherche classe">
-                                    <button type="submit name="submit"><i class="fas fa-search"></i></button>
-                                    `;
-        this.search_form.addEventListener('submit', e => {
-            e.preventDefault();
-        })
+        // this.search_form.setAttribute('class','filter-search')
+        // this.search_form.innerHTML =`\n
+        //                             <input type="search" id="search-box" name="search-text" placeholder="Recherche classe">
+        //                             <button type="submit name="submit"><i class="fas fa-search"></i></button>
+        //                             `;
+        // this.search_form.addEventListener('submit', e => {
+        //     e.preventDefault();
+        // })
+
 
         // the date filter elements
         function getDayName(stimp){
@@ -117,13 +118,10 @@ export default class ListClasses{
         this.filter_dates.setAttribute('class', 'filter-dates');
         this.choosed_date.setAttribute('class', 'choosed-option');
         this.choosed_date.setAttribute('id', 'choosed-option');
-        // this.choosed_date.innerHTML = `\
-        // \   <div class="the-date" data-value="${new Date(today).getDay()}">${getDayName(today)+" "+getDate(today)}</div>
-        // \   <i class="fas fa-caret-down"></i>
-        //     `
-        this.choosed_date.innerHTML = `
-        <div class="the-date" data-value="6" data-date="2023-04-08">samedi 8/3/2023</div>
-        \   <i class="fas fa-caret-down"></i>`
+        this.choosed_date.innerHTML = `\
+        \   <div class="the-date" data-date="2023-04-22" data-value="${new Date(today).getDay()}">${getDayName(today)+" "+getDate(today)}</div>
+        \   <i class="fas fa-caret-down"></i>
+            `
         this.dates_list.setAttribute('class', 'options-list');
         this.dates_list.setAttribute('id', 'options-list');
         this.dates_list.innerHTML = weekDays(today); // generate all the option
@@ -149,14 +147,14 @@ export default class ListClasses{
         })
 
         this.date_form.appendChild(this.filter_dates)
-        this.filter_section.append(this.filter_classes, this.search_form, this.date_form)
+        this.filter_section.append(this.filter_classes, /*this.search_form,*/ this.date_form)
     }
     async createClassesComponent(date, url){
         this.classes_card.setAttribute('class', 'classes-cards')
-        let seances = await loadData(url) // get all the seances from the api
+        let [res] = await loadData(url) // get all the seances from the api
         this.classes_card.innerHTML = '';
-        if (seances.length != 0 ){
-            seances.forEach(seance => {
+        if (res.length != 0 ){
+            res.forEach(seance => {
                 this.classes_card.appendChild(new ClassCard(seance, date).render())
             })
         }else this.classes_card.innerHTML = 'Aucune seance aujourd\'hui';
