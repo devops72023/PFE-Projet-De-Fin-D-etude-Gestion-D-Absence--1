@@ -1,5 +1,5 @@
 <?php
-    include "../../../Inc/db.inc.php";
+    include '../../../Inc/db.inc.php';
     include '../../../Inc/utils.inc.php';
     include 'api_func.inc.php';
 

@@ -28,7 +28,8 @@ function goTo(callback_func){
 
 async function loadClassesList(){
     let [res,req] = await loadData('/Professor/Inc/Api/CurrentUser.inc.php');
-    let genderWord = res.gender == "man" ? "M" : "Mme";
+    if(res.code == 401) location.reload();
+    let genderWord = res.gender == "Homme" ? "M" : "Mme";
     header__title.innerHTML = "Liste d'absence";
     header__title__details.innerHTML = "Classes";
     prof__name.innerHTML = genderWord+". "+res.nomProf
@@ -40,13 +41,20 @@ async function loadClassesList(){
 
 async function loadSettings(){
     let [res,req] = await loadData('/Professor/Inc/Api/CurrentUser.inc.php');
+    if(res.code == 401) location.reload();
+    let genderWord = res.gender == "Homme" ? "M" : "Mme";
     header__title.innerHTML = "Parametres";
-    header__title__details.innerHTML = "";
+    header__title__details.innerHTML = "__";
+    prof__name.innerHTML = genderWord+". "+res.nomProf
+    prof__image.setAttribute("src",`/Profile-pictures/Teachers/${res.image}`)
+    prof__image.setAttribute("alt",`${res.nomProf} ${res.prenomProf}`)
+
     root.appendChild(new Setting(res).render());
 }
 
 window.addEventListener('load', () =>{
-    loadClassesList()
+    // loadSettings();
+    loadClassesList();
 })
 
 listBtn.addEventListener('click', () =>{
@@ -66,4 +74,4 @@ parametreBtn.addEventListener('click', () => {
 
 
 
-export {root, goTo, header__title, header__title__details, today__date, prof__name}
+export {root, goTo, loadSettings, header__title, header__title__details, today__date, prof__name}

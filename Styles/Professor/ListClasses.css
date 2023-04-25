@@ -17,9 +17,6 @@ main{
     gap: 20px;
     animation: fadeIn .250s forwards ease-in-out;
 }
-.remove-content{
-    animation: fadeOut .250s forwards ease-in-out;
-}
 .teacher{
     width: 100%;
     text-align: center;

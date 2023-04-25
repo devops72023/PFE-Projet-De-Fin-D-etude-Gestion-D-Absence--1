@@ -10,9 +10,6 @@
     align-items: center;
     animation: fadeIn .250s forwards ease-in-out;
 }
-.remove-content{
-    animation: fadeOut .250s forwards ease-in-out;
-}
 .le-header{
     width: 100%;
     display: flex;

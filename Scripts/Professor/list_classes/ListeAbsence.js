@@ -59,7 +59,9 @@ export default class ListeAbsence{
                                 orderNb:item.orderNb,
                                 prenomEtudiant:item.prenom,
                                 nomEtudiant:item.nom,
-                                date: this.data.date
+                                image: item.image,
+                                date: this.data.date,
+                                comment: item.comment
                             }
                     let row = await this.renderEtudiantRow(dict);
                     this.listBody.innerHTML += row;

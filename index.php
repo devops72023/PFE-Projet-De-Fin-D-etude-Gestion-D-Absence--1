@@ -7,8 +7,7 @@
         $uid = json_decode($_SESSION['user']);
         $req = mysqli_query($conn, "SELECT * From professeurs WHERE codeProf='$uid[0]' AND password='$uid[1]'");
         $res = mysqli_fetch_assoc($req);
-
-        if(!mysqli_error($conn) and $uid[2] == 'professor'){
+        if(!mysqli_error($conn) and isset($res) == 1 and $uid[2] == 'professor'){
             header('Location:/Professor/');
         }
     }
@@ -63,7 +62,7 @@
                 <p class="rights">All rights reserved &copy; 2023</p>
             </div>
     
-            <form action="#" method="post" class="login-form">
+            <form method="post" class="login-form">
                 <h2 class="connexion">CONNEXION</h2>
                 <div class="form-group username-group">
                     <div class="input-box">

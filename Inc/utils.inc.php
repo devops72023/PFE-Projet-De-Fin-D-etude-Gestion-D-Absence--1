@@ -5,6 +5,7 @@
             'nomProf' => $user['nomProf'],
             'prenomProf' => $user['prenomProf'],
             'email' => $user['email'],
+            'telephone' => $user['telephone'],
             'gender' => $user['genre'],
             'image' => $user['image']
         );
@@ -67,4 +68,14 @@
         $res = mysqli_fetch_array($req);
         if(isset($res)) return ['isAbsent'=>true, 'comment'=>$res['commentaire']];
         return ['isAbsent' => false];
+    }
+
+    function isCurrentUser($conn, $name, $item){
+        $codeProf = json_decode($_SESSION['user'])[0];
+        $req = mysqli_query($conn, "SELECT * FROM professeurs
+                                    WHERE codeProf='$codeProf'
+                                    AND `$name`='$item'") or die(mysqli_error($conn));
+        $res = mysqli_fetch_array($req);
+        if(isset($res)) return true;
+        return false;
     }

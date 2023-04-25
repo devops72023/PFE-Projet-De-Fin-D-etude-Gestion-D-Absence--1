@@ -4,6 +4,7 @@
 ?>
 
         <main id="root"></main>
+        <script src="/Scripts/Animations.js"></script>
         <script src="/Scripts/Professor/Professor.js" type='module'></script>
 
     </body>
