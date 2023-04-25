@@ -33,7 +33,7 @@ export default class ListClasses{
         this.createClassesComponent(date, `/Professor/Inc/Api/Seances.inc.php?jour=${day}&filter=${filter}`);
     }
     createTeacherComponent(){
-        let genderWord = this.currentUser.gender == "man" ? "M" : "Mme";
+        let genderWord = this.currentUser.gender == "Homme" ? "M" : "Mme";
         this.teacher_div.setAttribute('class', 'teacher');
         this.teacher_div.innerHTML = `<h1>BIENVENUE ${genderWord+". "+this.currentUser.nomProf}</h1>`;
         this.teacher_div.innerHTML += `<div class="time-now">${new Date().getHours()+" : "+(new Date().getMinutes()<10 ? '0'+new Date().getMinutes() : new Date().getMinutes())}</div>`

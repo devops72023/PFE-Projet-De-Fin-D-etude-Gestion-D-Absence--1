@@ -38,7 +38,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gesstion d'absence M6 - LOGIN</title>
+    <title>Gestion d'absence M6 - LOGIN</title>
     <!-- LINK THE FONT AWESOME LIBRARY -->
     <link rel="stylesheet" href="Styles/fonts/Awesome/css/all.min.css">
     <!-- LINK THE RSET CSS FILE -->
@@ -66,7 +66,7 @@
                 <h2 class="connexion">CONNEXION</h2>
                 <div class="form-group username-group">
                     <div class="input-box">
-                        <label for="username" class="label">Email Address</label>
+                        <label for="username" class="label">Addresse Email</label>
                         <input type="text" id="username" name="username" onfocus="onFocusInput(this)" onblur="onBlurInput(this)">
                         <i class="fas fa-user"></i>
                     </div>
@@ -105,8 +105,8 @@
                     <input type="submit" value="SE CONNECTER" name="submit">
                 </div>
                 <div class="form-group other-group">
-                    <input type="checkbox" name="sevenir" id="sevenir">
-                    <label for="sevenir"> Se seveir de moi</label>
+                    <input type="checkbox" name="souvenir" id="souvenir">
+                    <label for="souvenir">Se souvenir de moi</label>
                     <a href="#" class="forgot-pwd">Mot de passe oublié?</a>
                 </div>
             </form>

@@ -52,6 +52,19 @@ async function loadSettings(){
     root.appendChild(new Setting(res).render());
 }
 
+async function loadSeances(){
+    let [res,req] = await loadData('/Professor/Inc/Api/CurrentUser.inc.php');
+    if(res.code == 401) location.reload();
+    let genderWord = res.gender == "Homme" ? "M" : "Mme";
+    header__title.innerHTML = "Parametres";
+    header__title__details.innerHTML = "__";
+    prof__name.innerHTML = genderWord+". "+res.nomProf
+    prof__image.setAttribute("src",`/Profile-pictures/Teachers/${res.image}`)
+    prof__image.setAttribute("alt",`${res.nomProf} ${res.prenomProf}`)
+
+    root.appendChild(new Setting(res).render());
+}
+
 window.addEventListener('load', () =>{
     // loadSettings();
     loadClassesList();
@@ -70,6 +83,9 @@ statistiqueBtn.addEventListener('click', () =>{
 })
 parametreBtn.addEventListener('click', () => {
     goTo(loadSettings)
+})
+seanceBtn.addEventListener('click', () => {
+    goTo(loadSeances)
 })
 
 
