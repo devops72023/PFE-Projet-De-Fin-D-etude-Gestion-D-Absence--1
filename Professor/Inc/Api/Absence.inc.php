@@ -25,6 +25,7 @@
         if(isset($data)){
             foreach($data['data'] as $item){
                 $cne=$item['cne'];
+                $codeSeance=$item['codeSeance'];
                 $date=$item['date'];
                 $hour=$item['hour'];
                 $cmnt=$item['comment'];
@@ -33,7 +34,7 @@
                     $req = mysqli_query($conn, "DELETE FROM abscenter WHERE CNE='$cne'AND date='$date' AND heure='$hour'") or die(mysqli_error($conn));
                 }
                 elseif(!$checkAbsence['isAbsent'] and $item['absent']){
-                    $req = mysqli_query($conn, "INSERT INTO `abscenter`(`CNE`, `date`, `heure`, `justification`, `commentaire`) VALUES ('$cne','$date','$hour','0','$cmnt')") or die(mysqli_error($conn));
+                    $req = mysqli_query($conn, "INSERT INTO `abscenter`(`CNE`, `codeSeance`, `date`, `heure`, `justification`, `commentaire`) VALUES ('$cne', '$codeSeance', '$date','$hour','0','$cmnt')") or die(mysqli_error($conn));
                 }
             }
             echo json_encode(['data' => $data]);

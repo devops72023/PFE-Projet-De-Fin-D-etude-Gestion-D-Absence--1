@@ -46,7 +46,7 @@
         $v = $num + $duree;
         return $v . ':30';
     }
-    function renderSeances($items, $total){
+    function renderSeances($items, $total=0){
         $seanceObj = array(
             'codeProf' => $items['codeProf'],
             'codeClass' => $items['codeClasse'],
@@ -54,6 +54,7 @@
             'niveauClass' => $items['niveauClasse'],
             'codeMatiere' => $items['codeMatiere'],
             'nomMatiere' => $items['nomMatiere'],
+            'codeSeance' => $items['codeSeance'],
             'jour' => $items['jour'],
             'heure' => $items['heure'],
             'duree' => $items['duree'],

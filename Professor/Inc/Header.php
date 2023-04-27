@@ -16,6 +16,7 @@
     <link rel="stylesheet" href="../../Styles/Professor/ListClasses.css">
     <link rel="stylesheet" href="../../Styles/Professor/ListEtudiants.css">
     <link rel="stylesheet" href="../../Styles/Professor/Setting.css">
+    <link rel="stylesheet" href="../../Styles/Professor/Seances.css">
 
     <!-- LINK ALL THE JS FILES -->
     <script defer src="../../Scripts/Professor/Header.js"></script>

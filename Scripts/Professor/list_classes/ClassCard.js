@@ -26,6 +26,7 @@ export default class ClassCard{
                 header__title__details.innerHTML = "Etudiants";
                 const list =  new ListeAbsence({
                                                     codeClass: this.seance.codeClass,
+                                                    codeSeance: this.seance.codeSeance,
                                                     date: this.seanceDate,
                                                     duree: this.seance.duree
                                                 });

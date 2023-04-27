@@ -163,8 +163,10 @@ export default class ListeAbsence{
             hours.forEach(item=>{
                 let cne = item.children[0].dataset.id;
                 let comment = this.list.querySelector(`#comment-${cne}`);
+                console.log(this.data.codeSeance)
                 let etudiant = {
                     cne: cne,
+                    codeSeance: this.data.codeSeance,
                     date: this.data.date,
                     hour: item.children[0].value,
                     absent: item.children[0].checked,

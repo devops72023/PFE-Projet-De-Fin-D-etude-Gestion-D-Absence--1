@@ -7,7 +7,6 @@
     box-shadow: rgba(0, 0, 0, 0.2) 0px 18px 50px -10px;
     border-radius: 20px;
     overflow: hidden;
-
     animation: fadeIn .250s forwards ease-in-out;
 }
 .remove-content{
@@ -53,7 +52,7 @@ ul {
     align-items: center;
     text-decoration: none;
     height: 50px;
-    padding-left: 20px;
+    padding-left: 10px;
     border-radius: 10px;
     transition: all .3s ease-in-out;
     cursor: pointer;
@@ -71,6 +70,11 @@ ul {
 .setting-list-container li button .text{
     color: var(--gray);
     font-size: 14px;
+    transition: all .3s ease-in-out;
+}
+.setting-list-container li button .awesome-icon{
+    color: var(--gray);
+    font-size: 25px;
     transition: all .3s ease-in-out;
 }
 .setting-indicator{
@@ -98,6 +102,13 @@ ul {
 .setting-list-container li.active button .text{
     color: var(--secondary);
     font-family: Poppins-medium;
+}
+.setting-list-container li.active button .icon{
+    fill: var(--secondary);
+    width: 30px;
+}
+.setting-list-container li.active button .awesome-icon{
+    color: var(--secondary);
 }
 
 .setting-list-container li:nth-child(1).active ~ .setting-indicator{
