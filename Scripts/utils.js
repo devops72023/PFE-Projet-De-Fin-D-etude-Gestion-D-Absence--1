@@ -25,4 +25,16 @@ function getDayName(day){
         case '6' : return 'Samedi';
     }
 }
-export {loadData, wichHourNow, getDayName}
+function parseHour(hour){
+    switch (hour){
+        case 1: return '08:30';
+        case 2: return '09:30';
+        case 3: return '10:30';
+        case 4: return '11:30';
+        case 5: return '02:30';
+        case 6: return '03:30';
+        case 7: return '04:30';
+        case 8: return '05:30';
+    }
+}
+export {loadData, wichHourNow, getDayName, parseHour}

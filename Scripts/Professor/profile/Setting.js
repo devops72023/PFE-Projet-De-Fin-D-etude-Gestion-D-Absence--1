@@ -27,11 +27,13 @@ export default class Setting{
         this.settingList.innerHTML = `
             <li class="setting-list active">
                 <button id="change-infos-btn">
+                    <i class="fas fa-user awesome-icon"></i>
                     <div class="text">Changer les informations</div>
                 </button>
             </li>
             <li class="setting-list">
-                <button id="change-pwd-btn">                      
+                <button id="change-pwd-btn">    
+                    <i class="fas fa-lock awesome-icon"></i>                  
                     <div class="text">Changer le mot de passe</div>
                 </button>
             </li>

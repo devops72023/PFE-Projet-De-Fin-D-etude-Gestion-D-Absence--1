@@ -296,13 +296,24 @@ ul {
     .setting-list-container{
         flex-direction: row;
         justify-content: center;
+    }.setting-list-container li button .awesome-icon{
+        font-size: 20px;
     }
-    .setting-list-container li.active{
-        background: var(--secondary);   
+    .setting-list-container li button{
+        min-height: 30px;
+        padding: 7px 14px;
+        gap: 10px;  
         border-radius: 7px;
     }
     .setting-list-container li.active button{
-        padding: 0px 20px;
+        background: var(--secondary);
+    }
+    .setting-list-container li.active button .icon{
+        fill: var(--light);
+        width: 25px;
+    }
+    .setting-list-container li.active button .awesome-icon{
+        color: var(--light);
     }
     .setting-list-container li.active button .text{
         color: var(--light);

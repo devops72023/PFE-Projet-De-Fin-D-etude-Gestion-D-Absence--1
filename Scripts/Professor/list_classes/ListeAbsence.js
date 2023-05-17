@@ -18,7 +18,56 @@ export default class ListeAbsence{
         this.listHead = document.createElement('thead');
         this.listBody = document.createElement('tbody');
     }
-
+    renderUserData(user, htmlInpts, cmt){
+        return {
+            cne:user.cne,
+            orderNb:user.orderNb,
+            prenomEtudiant:user.prenom,
+            nomEtudiant:user.nom,
+            image: user.image,
+            date: this.data.date,
+            comment: cmt,
+            htmlInpts: htmlInpts
+        }
+    }
+    sortEtudiantList(data){
+        let arr = data
+        let isTrue = true;
+        while(isTrue){
+            isTrue = false;
+            for(let i=0; i<data.length - 1; i++){
+                if(
+                    Number(arr[i].orderNb) > Number(data[i+1].orderNb)
+                ){
+                    let temp = arr[i];
+                    arr[i] = arr[i+1];
+                    arr[i+1] = temp;
+                    isTrue = true;
+                    console.log('SWITCH')
+                }
+            }
+        }
+        return arr;
+    }
+    async handleResponse(res){
+        let arr = [];
+        await Promise.all(
+                res.map(
+                    async(item) => { 
+                        // This loop get all the etudiant and render a dictionary holding necessry data
+                        // for each one with inputs checked if the etudiant were absent
+                        let [htmlInpts,commentContainer] = await this.parseDuree(item.cne);
+                        let dict = this.renderUserData(item, htmlInpts, commentContainer)
+                        arr.push(dict)
+                    }))
+        let sortedData = this.sortEtudiantList(arr); // Sort by order number the list of etudiants
+        sortedData.forEach(
+            async(item) => {
+                // This loop render a row in the table for each etudiant.
+                let row = this.renderEtudiantRow(item);
+                this.listBody.innerHTML += row;
+            })
+    }
     createListHeader(){
         this.listHeader.setAttribute('class', 'le-header');
         this.listTitle.setAttribute('class', 'list-title');
@@ -53,19 +102,7 @@ export default class ListeAbsence{
                 );
             if(res.length != 0){
                 this.listBody.innerHTML = '';
-                res.forEach(async(item) => {
-                    let dict = {
-                                cne:item.cne,
-                                orderNb:item.orderNb,
-                                prenomEtudiant:item.prenom,
-                                nomEtudiant:item.nom,
-                                image: item.image,
-                                date: this.data.date,
-                                comment: item.comment
-                            }
-                    let row = await this.renderEtudiantRow(dict);
-                    this.listBody.innerHTML += row;
-                })
+                this.handleResponse(res)
             }else this.listBody.innerHTML   =  `<tr><td colspan="${3+this.data.duree}">
                                                     Aucun Etudiant</td><td`;
         }))
@@ -89,20 +126,7 @@ export default class ListeAbsence{
                     `/Professor/Inc/Api/Class.inc.php?codeClass=${this.data.codeClass}&prenom=${firstName}`
                     );
                     if(res.length != 0){
-                        this.listBody.innerHTML = '';
-                        res.forEach(async(item) => {
-                            let dict = {
-                                cne:item.cne,
-                                orderNb:item.orderNb,
-                                prenomEtudiant:item.prenom,
-                                nomEtudiant:item.nom,
-                                image: item.image,
-                                date: this.data.date,
-                                comment: item.comment
-                            }
-                            let row = await this.renderEtudiantRow(dict);
-                            this.listBody.innerHTML += row;
-                        })
+                        this.handleResponse(res)
                     }else this.listBody.innerHTML   =  `<tr><td colspan="${3+this.data.duree}">
                                                         Aucun Etudiant</td><td`;
                 }else{
@@ -113,17 +137,7 @@ export default class ListeAbsence{
                     );
                     if(res.length != 0){
                         this.listBody.innerHTML = '';
-                        res.forEach(async(item) => {
-                            let dict = {
-                                        cne:item.cne,
-                                        orderNb:item.orderNb,
-                                        prenomEtudiant:item.prenom,
-                                        nomEtudiant:item.nom,
-                                        date: this.data.date
-                                    }
-                            let row = await this.renderEtudiantRow(dict);
-                            this.listBody.innerHTML += row;
-                        })
+                        this.handleResponse(res)
                     }else this.listBody.innerHTML   =  `<tr><td colspan="${3+this.data.duree}">
                                                         Aucun Etudiant</td><td`;
                 }
@@ -133,19 +147,7 @@ export default class ListeAbsence{
                 );
                 if(res.length != 0){
                     this.listBody.innerHTML = '';
-                    res.forEach(async(item) => {
-                        let dict = {
-                            cne:item.cne,
-                            orderNb:item.orderNb,
-                            prenomEtudiant:item.prenom,
-                            nomEtudiant:item.nom,
-                            image: item.image,
-                            date: this.data.date,
-                            comment: item.comment
-                        }
-                        let row = await this.renderEtudiantRow(dict);
-                        this.listBody.innerHTML += row;
-                    })
+                    this.handleResponse(res)
                 }else this.listBody.innerHTML   =  `<tr><td colspan="${3+this.data.duree}">
                                                     Aucun Etudiant</td><td`;
             }
@@ -163,7 +165,6 @@ export default class ListeAbsence{
             hours.forEach(item=>{
                 let cne = item.children[0].dataset.id;
                 let comment = this.list.querySelector(`#comment-${cne}`);
-                console.log(this.data.codeSeance)
                 let etudiant = {
                     cne: cne,
                     codeSeance: this.data.codeSeance,
@@ -188,12 +189,27 @@ export default class ListeAbsence{
                 return res
             })
             .catch(err => console.log(err));
-
         });
         
         this.listHeader.append(this.listTitle, this.filterForm, this.searchForm, this.saveBtn)
     }
-    async renderEtudiantRow(user){
+    async parseDuree(cne){
+        let commentContainer = '';
+        let htmlInpts = '';
+        for(let i = 0; i<this.data.duree; i++){
+            let [res] = await loadData(`/Professor/Inc/Api/Absence.inc.php?isAbsent=yes&cne=${cne}&date=${this.data.date}&hour=${i+1}`);
+
+            if(res && res.isAbsent){
+                htmlInpts += `<td class="hour"><input type="checkbox" data-id="${cne}" value="${i+1}" checked/></td>`;
+                commentContainer = res.comment;
+            }
+            else{
+                htmlInpts += `<td class="hour"><input type="checkbox" data-id="${cne}" value="${i+1}" /></td>`;
+            }
+        }
+        return [htmlInpts,commentContainer];
+    }
+    renderEtudiantRow(user){
         let row = `<tr data-id='${user.cne}'>
                        <td class="orderNb">${user.orderNb}</td>
                        <td class="etudiant-name">
@@ -201,24 +217,13 @@ export default class ListeAbsence{
                                <img src="../../Profile-pictures/Etudiants/${user.image}" alt="Adelghani El Mouak" />
                                <p>${user.prenomEtudiant} ${user.nomEtudiant}</p>
                            </div>
-                       </td>`
-        let commentContainer = '';
-        for(let i = 0; i<this.data.duree; i++){
-            let [res] = await loadData(`/Professor/Inc/Api/Absence.inc.php?isAbsent=yes&cne=${user.cne}&date=${this.data.date}&hour=${i+1}`);
-
-            if(res && res.isAbsent){
-                row += `<td class="hour"><input type="checkbox" data-id="${user.cne}" value="${i+1}" checked/></td>`;
-                commentContainer = res.comment;
-            }
-            else{
-                row += `<td class="hour"><input type="checkbox" data-id="${user.cne}" value="${i+1}" /></td>`;
-            }
-        }
-        row += `<td class="comment">
-                    <input type="text" id='comment-${user.cne}' value='${commentContainer}'
-                            name="comment" placeholder="Entrez votre commentaire ici ..." />
-                </td>
-                </tr>`
+                       </td>
+                       ${user.htmlInpts}
+                       <td class="comment">
+                            <input type="text" id='comment-${user.cne}' value='${user.comment}'
+                                    name="comment" placeholder="Entrez votre commentaire ici ..." />
+                        </td>
+                    </tr>`
         return row;
     }
     async createList(){
@@ -243,19 +248,7 @@ export default class ListeAbsence{
         let [res] = await loadData(`/Professor/Inc/Api/Class.inc.php?codeClass=${this.data.codeClass}`);
 
         if(res.length != 0){
-            res.forEach(async(item) => {
-                let dict = {
-                            cne:item.cne,
-                            orderNb:item.orderNb,
-                            prenomEtudiant:item.prenom,
-                            nomEtudiant:item.nom,
-                            image: item.image,
-                            date: this.data.date,
-                            comment: item.comment
-                        }
-                let row = await this.renderEtudiantRow(dict);
-                this.listBody.innerHTML += row;
-            })
+            this.handleResponse(res)
         }else this.listBody.innerHTML = `<tr><td colspan="${3+this.data.duree}">Aucun Etudiant</td><td`;
 
         

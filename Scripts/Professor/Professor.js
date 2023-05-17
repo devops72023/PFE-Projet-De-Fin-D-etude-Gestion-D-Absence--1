@@ -68,8 +68,8 @@ async function loadSeances(){
 
 window.addEventListener('load', () =>{
     // loadSettings();
-    // loadClassesList();
-    loadSeances();
+    loadClassesList();
+    // loadSeances();
 })
 
 listBtn.addEventListener('click', () =>{

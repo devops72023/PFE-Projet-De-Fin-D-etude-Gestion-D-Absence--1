@@ -1,15 +1,19 @@
-import { loadData } from "../../utils";
+import { loadData, parseHour } from "../../utils";
 
 export default class AddSeance{
     constructor(){
         this.addSeance = document.createElement('div');
         this.header = document.createElement('div');
         this.form = document.createElement('form');
+        this.right = document.createElement('div');
+        this.left = document.createElement('div');
+
         this.Classes = document.createElement('div');
         this.Subjects = document.createElement('div');
         this.Days = document.createElement('div');
         this.Hours = document.createElement('div');
         this.Period = document.createElement('div');
+        this.submit = document.createElement('button');
     }
     createHeader(){
         this.header.setAttribute('class', 'se-header');
@@ -26,14 +30,19 @@ export default class AddSeance{
             choosed.children[0].innerHTML = target.innerHTML;
         });
     }
+    isEmpty(data){
+        if(data == "") return true;
+        return false;
+    }
     async createClassesInpt(){
-        this.Classes.setAttribute('class', 'form-group');
+        this.Classes.setAttribute('class', 'form-group form-classes');
         let [res] = await loadData('/Professor/Inc/Api/Class.inc.php');
         let classes = ''
         res.forEach(item => {
             classes += `<div class="option" data-value="${item.codeClasse}">${item.niveauClasse} ${item.nomClasse}</div>`
         });
         this.Classes.innerHTML = `
+            <label>Choisir la classe</label>
             <div class="filter">
                 <div class="choosed-option" id="choosed-option">
                     <div class="the-date" data-value="">Choisir une classe</div>
@@ -50,20 +59,20 @@ export default class AddSeance{
 
         options.forEach(element => element.addEventListener('click', async (e)=>{
             this.chooseDate(optionsList,e.target, choosedDate, options)
-            console.log('clicked')
         }))
         choosedDate.addEventListener('click', () => {
             optionsList.classList.toggle('show-options-list')
         })
     }
     async createSubjectsInpt(){
-        this.Subjects.setAttribute('class', 'form-group');
+        this.Subjects.setAttribute('class', 'form-group form-subjects');
         let [res] = await loadData('/Professor/Inc/Api/Subjects.inc.php');
         let subjects = ''
         res.forEach(item => {
-            subjects += `<div class="option" data-value="${item.codeMtiere}">${item.nomMatiere}</div>`
+            subjects += `<div class="option" data-value="${item.codeMatiere}">${item.nomMatiere}</div>`
         });
         this.Subjects.innerHTML += `
+            <label>Choisir la matiere</label>
             <div class="filter">
                 <div class="choosed-option" id="choosed-option">
                     <div class="the-date" data-value="">Choisir une Matiere</div>
@@ -74,25 +83,27 @@ export default class AddSeance{
                 </div>
             </div>
         `
-        let choosedDate = this.Subjects.querySelector('#choosed-option');
+        let choosedOption = this.Subjects.querySelector('#choosed-option');
         let optionsList = this.Subjects.querySelector('#options-list');
         let options = this.Subjects.querySelectorAll('.option');
 
         options.forEach(element => element.addEventListener('click', async (e)=>{
-            this.chooseDate(optionsList,e.target, choosedDate, options)
+            this.chooseDate(optionsList,e.target, choosedOption, options)
         }))
-        choosedDate.addEventListener('click', () => {
+        choosedOption.addEventListener('click', () => {
             optionsList.classList.toggle('show-options-list')
         })
     }
-    async createDaysInpt(){
-        this.Days.setAttribute('class', 'form-group');
+    createDaysInpt(){
+        this.Days.setAttribute('class', 'form-group form-days');
         let DAYS = {1:'Lundi', 2:'Mardi', 3:'Mercredi', 4:'Jeudi', 5:'Vendredi', 6:'Samedi'}
         let days = ''
-        DAYS.forEach(item => {
-            days += `<div class="option" data-value="${item.codeMtiere}">${item.nomMatiere}</div>`
-        });
+        Object.keys(DAYS)
+            .forEach(key => {
+                days += `<div class="option" data-value="${key}">${Object.values(DAYS)[key-1]}</div>`
+            })
         this.Days.innerHTML += `
+            <label>Choisir le jour</label>
             <div class="filter">
                 <div class="choosed-option" id="choosed-option">
                     <div class="the-date" data-value="">Choisir un Jour</div>
@@ -114,18 +125,138 @@ export default class AddSeance{
             optionsList.classList.toggle('show-options-list')
         })
     }
+    createHoursInpt(){
+        this.Hours.setAttribute('class', 'form-group form-hours');
+        let hours = ''
+        for(let i=1; i<=8; i++){
+            hours += `<div class="option" data-value="${i}">${parseHour(i)}</div>`
+        }
+        this.Hours.innerHTML += `
+            <label>Choisir l'heure de debut</label>
+            <div class="filter">
+                <div class="choosed-option" id="choosed-option">
+                    <div class="the-date" data-value="">Choisir une heure</div>
+                    <i class="fas fa-caret-down"></i>
+                </div>
+                <div class="options-list" id="options-list">
+                    ${hours}
+                </div>
+            </div>
+        `
+        let choosedOption = this.Hours.querySelector('#choosed-option');
+        let optionsList = this.Hours.querySelector('#options-list');
+        let options = this.Hours.querySelectorAll('.option');
+
+        options.forEach(element => element.addEventListener('click', (e)=>{
+            this.chooseDate(optionsList,e.target, choosedOption, options)
+        }))
+        choosedOption.addEventListener('click', () => {
+            optionsList.classList.toggle('show-options-list')
+        })
+    }
+    createPeriodInpt(){
+        this.Period.setAttribute('class', 'form-group form-period');
+        let counter = 1;
+        this.Period.innerHTML += `
+            <label>Choisir la duree</label>
+            <div class="periodInpt">
+                <span id="minus">-</span>
+                <div class="period">
+                    <div id="periodValue">${counter}</div> heure
+                </div>
+                <span id="plus">+</span>
+            </div>
+            <span class="error"></span>
+        `
+        const period = this.Period.querySelector('#periodValue');
+        const minus = this.Period.querySelector('#minus');
+        const plus = this.Period.querySelector('#plus');
+        minus.addEventListener(
+            'click',
+            ()=>{
+                counter--;
+                if(counter < 1) counter = 1;
+                if(counter > 4) counter = 4;
+                period.innerHTML = counter;
+                
+            })
+        plus.addEventListener(
+            'click',
+            ()=>{
+                counter++;
+                if(counter < 1) counter = 1;
+                if(counter > 4) counter = 4;
+                period.innerHTML = counter;
+            })
+    }
     createForm(){
         this.createClassesInpt();
         this.createSubjectsInpt();
         this.createDaysInpt();
+        this.createHoursInpt();
+        this.createPeriodInpt();
         this.form.setAttribute('class', 'se-form');
-        this.form.append(
-            this.Classes,
-            this.Subjects,
-            this.Days,
-            this.Hours,
-            this.Period
-        )
+        this.right.setAttribute('class', 'rightInpts');
+        this.left.setAttribute('class', 'leftInpts');
+        
+        this.submit.setAttribute('class','submit');
+        this.submit.innerHTML = 'Ajouter une séance';
+        this.right
+                .append(
+                    this.Classes,
+                    this.Subjects,
+                    this.Days
+                )
+        this.left
+                .append(
+                    this.Hours,
+                    this.Period,
+                    this.submit
+                )
+        this.form.append(this.right, this.left)
+        
+        this.form
+            .addEventListener(
+                'submit',
+                    event => {
+                    event.preventDefault();
+                    let formData = new FormData();
+                    const classe = this.Classes.querySelector('.the-date').dataset.value
+                    const subject = this.Subjects.querySelector('.the-date').dataset.value
+                    const day = this.Days.querySelector('.the-date').dataset.value
+                    const hour = this.Hours.querySelector('.the-date').dataset.value
+                    const period = this.Period.querySelector('#periodValue').innerHTML
+                    if(
+                        this.isEmpty(classe) ||
+                        this.isEmpty(subject) ||
+                        this.isEmpty(day) ||
+                        this.isEmpty(hour) ||
+                        this.isEmpty(period)
+                    ){
+                        console.log("Alert! fill all the inputs.")
+                        return;
+                    }
+                    const data = 
+                    {
+                        'codeClasse' : classe,
+                        'codeMatiere' : subject,
+                        'jour' : day,
+                        'heure' : hour,
+                        'periode' : period
+                    }
+                    formData.append('data', JSON.stringify(data))
+                    formData.append('submit', 'submit');
+                    console.log(JSON.stringify(data))
+                    fetch(
+                        '/Professor/Inc/Api/AddSeance.inc.php',
+                        {
+                            method: 'POST',
+                            body: formData
+                        }
+                    ).then(res => {
+                        return res.json()
+                    }).then(res => console.log(res))
+                })
     }
     render(){
         this.createHeader();
