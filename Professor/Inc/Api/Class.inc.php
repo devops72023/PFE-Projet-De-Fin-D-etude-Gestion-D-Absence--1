@@ -84,7 +84,6 @@
                     exit;
                 }
             }
-            
         }
 
         // this return a specific etudiant by his fullname
@@ -122,5 +121,12 @@
             $Etudiants[count($Etudiants)] = renderEtudiant($row);
         }
         echo json_encode($Etudiants);
+        exit;
     }
+    $req = mysqli_query($conn, "SELECT * FROM classes") or die(mysqli_error($conn));
+    $res = [];
+    while ($row = mysqli_fetch_assoc($req)){
+        $res[count($res)] = $row;
+    }
+    echo json_encode($res);
 ?>  

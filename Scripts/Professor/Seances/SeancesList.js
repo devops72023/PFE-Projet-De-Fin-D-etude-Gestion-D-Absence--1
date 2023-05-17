@@ -42,7 +42,6 @@ export default class SeanceList{
             chooseDate(optionsList,e.target, choosedDate)
             
         }))
-        console.log(choosedDate)
         choosedDate.addEventListener('click', () => {
             optionsList.classList.toggle('show-options-list')
         })
