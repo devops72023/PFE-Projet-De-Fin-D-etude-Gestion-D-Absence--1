@@ -24,6 +24,14 @@
     width: 100%;
     border-collapse: collapse;
 }
+.trash {
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+}
+.trash:hover{
+    scale: 1.1;
+    color: var(--red);
+}
 
 /* style the seance addition form */
 

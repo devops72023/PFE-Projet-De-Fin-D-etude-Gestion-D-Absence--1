@@ -81,7 +81,7 @@ export default class Seances{
 
         this.setting.setAttribute("class", "setting");
         this.settingBody.setAttribute("class", "setting-body");
-        this.settingBody.appendChild(new AddSeance().render());
+        this.settingBody.appendChild(new SeanceList().render());
         this.setting.append(this.settingHead, this.settingBody);
         return this.setting;
     }

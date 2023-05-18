@@ -1,4 +1,4 @@
-import { loadData } from "../../utils.js";
+import { loadData, parseHour } from "../../utils.js";
 
 export default class ListeAbsence{
     constructor(data){
@@ -103,7 +103,7 @@ export default class ListeAbsence{
             if(res.length != 0){
                 this.listBody.innerHTML = '';
                 this.handleResponse(res)
-            }else this.listBody.innerHTML   =  `<tr><td colspan="${3+this.data.duree}">
+            }else this.listBody.innerHTML   =  `<tr><td colspan="${4+this.data.duree}">
                                                     Aucun Etudiant</td><td`;
         }))
         this.choosedDate.addEventListener('click', () => {
@@ -127,7 +127,7 @@ export default class ListeAbsence{
                     );
                     if(res.length != 0){
                         this.handleResponse(res)
-                    }else this.listBody.innerHTML   =  `<tr><td colspan="${3+this.data.duree}">
+                    }else this.listBody.innerHTML   =  `<tr><td colspan="${4+this.data.duree}">
                                                         Aucun Etudiant</td><td`;
                 }else{
                     let firstName = text.split(" ")[0];
@@ -138,7 +138,7 @@ export default class ListeAbsence{
                     if(res.length != 0){
                         this.listBody.innerHTML = '';
                         this.handleResponse(res)
-                    }else this.listBody.innerHTML   =  `<tr><td colspan="${3+this.data.duree}">
+                    }else this.listBody.innerHTML   =  `<tr><td colspan="${4+this.data.duree}">
                                                         Aucun Etudiant</td><td`;
                 }
             }else{
@@ -148,7 +148,7 @@ export default class ListeAbsence{
                 if(res.length != 0){
                     this.listBody.innerHTML = '';
                     this.handleResponse(res)
-                }else this.listBody.innerHTML   =  `<tr><td colspan="${3+this.data.duree}">
+                }else this.listBody.innerHTML   =  `<tr><td colspan="${4+this.data.duree}">
                                                     Aucun Etudiant</td><td`;
             }
 
@@ -227,19 +227,18 @@ export default class ListeAbsence{
         return row;
     }
     async createList(){
+        console.log(this.data);
         this.listContainer.setAttribute('class', 'etudiant-list-container')
         this.list.setAttribute('class', 'etudiant-list');
-        let hoursTitle = [
-            '<td class="hour1">8:30</td>',
-            '<td class="hour2">9:30</td>',
-            '<td class="hour3">10:30</td>',
-            '<td class="hour4">11:30</td>'
-        ]
         let thead = `<tr>
                                         <td class="orderNb">N ordre</td>
                                         <td class="name">Non et Prenom</td>`
-        for(let i = 0; i < this.data.duree; i++){
-            thead += hoursTitle[i];
+        for(
+                let i =0;
+                i < this.data.duree;
+                i++
+            ){
+            thead += `<td class="hour${i}">${parseHour(this.data.heure + i)}</td>`;
         }
         thead += `<td class="comment">Commentaire</td>
                   </tr>`;
@@ -249,7 +248,7 @@ export default class ListeAbsence{
 
         if(res.length != 0){
             this.handleResponse(res)
-        }else this.listBody.innerHTML = `<tr><td colspan="${3+this.data.duree}">Aucun Etudiant</td><td`;
+        }else this.listBody.innerHTML = `<tr><td colspan="${4+this.data.duree}">Aucun Etudiant</td><td`;
 
         
         this.list.append(this.listHead,this.listBody)

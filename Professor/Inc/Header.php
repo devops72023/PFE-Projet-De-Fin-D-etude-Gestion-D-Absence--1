@@ -96,3 +96,4 @@
             </div>
         </ul>
     </nav>
+    <div class="alerts-container"></div>

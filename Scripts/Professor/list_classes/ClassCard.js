@@ -28,7 +28,8 @@ export default class ClassCard{
                                                     codeClass: this.seance.codeClass,
                                                     codeSeance: this.seance.codeSeance,
                                                     date: this.seanceDate,
-                                                    duree: this.seance.duree
+                                                    duree: Number(this.seance.duree),
+                                                    heure: Number(this.seance.heure)
                                                 });
                 root.appendChild(list.render());
             })

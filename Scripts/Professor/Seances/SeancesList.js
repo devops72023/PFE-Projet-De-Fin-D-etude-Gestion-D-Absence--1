@@ -46,6 +46,24 @@ export default class SeanceList{
             optionsList.classList.toggle('show-options-list')
         })
     }
+    deleteSeance(id){
+        console.log(id)
+        fetch(
+            "/Professor/Inc/Api/DeleteSeance.inc.php",
+            {
+                method: 'POST',
+                body: JSON.stringify({
+                    id: id
+                })
+            }
+        )
+        .then(res => res.json())
+        .then(async response => {
+            if (response.code === 200){
+                this.createList()
+            }
+        });
+    }
     renderRow(data){
         return `
             <tr>
@@ -53,6 +71,12 @@ export default class SeanceList{
                 <td class="classes-col">${data.nomMatiere}</td>
                 <td class="classes-col">${getDayName(data.jour)}</td>
                 <td class="classes-col">${data.period}</td>
+                <td 
+                    class="classes-col delSeance" 
+                    data-seanceid="${data.codeSeance}"
+                    >
+                        <i class="trash fas fa-trash"></i>
+                </td>
             </tr>
         `
     }
@@ -64,12 +88,22 @@ export default class SeanceList{
                 <td class="classes-col">Matiere</td>
                 <td class="classes-col">Jour de semaine</td>
                 <td class="classes-col">Durée</td>
+                <td class="classes-col">Action</td>
             </tr>
         `
         let [res] = await loadData('/Professor/Inc/Api/Seances.inc.php')
         res.forEach(seance => {
             this.list.innerHTML += this.renderRow(seance)
         });
+        
+        this.list
+            .querySelectorAll('.delSeance')
+                .forEach(row => {
+                    row.addEventListener('click', event => {
+                        console.log(row.dataset.seanceid);
+                        this.deleteSeance(row.dataset.seanceid)
+                    })
+                })
     }
     render(){
         this.createHeader();

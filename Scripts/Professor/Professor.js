@@ -2,8 +2,10 @@ import { loadData } from "../utils.js";
 import ListClasses from "./list_classes/Classes_container.js";
 import Setting from "./profile/Setting.js";
 import Seances from "./Seances/Seances.js";
+import Alert from "../Alert/Alert.js";
 
 let root = document.getElementById('root');
+let alertContainer = document.querySelector('.alerts-container');
 
 let header__title = document.getElementById('header-title');
 let header__title__details = document.getElementById('header-title-details');
@@ -90,6 +92,30 @@ seanceBtn.addEventListener('click', () => {
     goTo(loadSeances)
 })
 
+alertContainer.appendChild(new Alert({
+    type: 'success',
+    msg_title: 'Success',
+    msg_text: 'Les coordonnes sont ete modifier avec succes'
+}).render())
+alertContainer.appendChild(new Alert({
+    type: 'info',
+    msg_title: 'Info',
+    msg_text: 'Les coordonnes sont ete modifier avec succes'
+}).render())
+alertContainer.appendChild(new Alert({
+    type: 'warning',
+    msg_title: 'Warning',
+    msg_text: 'Les coordonnes sont ete modifier avec succes'
+}).render())
 
 
-export {root, goTo, loadSettings, header__title, header__title__details, today__date, prof__name}
+export {
+    root,
+    alertContainer,
+    goTo, 
+    loadSettings, 
+    header__title, 
+    header__title__details, 
+    today__date, 
+    prof__name
+}

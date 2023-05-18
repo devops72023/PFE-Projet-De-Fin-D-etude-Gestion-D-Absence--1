@@ -262,6 +262,8 @@ nav ul li:nth-child(4).active ~ .indicator{
         height: 20px;
     }
 }
+
+
 @media only screen and (max-width: 630px){
     header{
         padding: 0px 20px;
