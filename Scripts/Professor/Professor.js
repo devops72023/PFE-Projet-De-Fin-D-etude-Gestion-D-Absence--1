@@ -92,21 +92,13 @@ seanceBtn.addEventListener('click', () => {
     goTo(loadSeances)
 })
 
-alertContainer.appendChild(new Alert({
-    type: 'success',
-    msg_title: 'Success',
-    msg_text: 'Les coordonnes sont ete modifier avec succes'
-}).render())
-alertContainer.appendChild(new Alert({
-    type: 'info',
-    msg_title: 'Info',
-    msg_text: 'Les coordonnes sont ete modifier avec succes'
-}).render())
-alertContainer.appendChild(new Alert({
-    type: 'warning',
-    msg_title: 'Warning',
-    msg_text: 'Les coordonnes sont ete modifier avec succes'
-}).render())
+if(false){
+    alertContainer.appendChild(new Alert({
+        type: 'success',
+        msg_title: 'Success',
+        msg_text: 'Les coordonnes sont ete modifier avec succes'
+    }).render())
+}
 
 
 export {

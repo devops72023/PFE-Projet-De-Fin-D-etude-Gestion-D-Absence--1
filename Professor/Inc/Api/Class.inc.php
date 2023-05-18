@@ -16,6 +16,7 @@
             $filter  = $_GET['filter'];
             $date = $_GET['date'];
             $duree = $_GET['duree'];
+            $codeSeance = $_GET['codeSeance'];
             
             $sql = "SELECT CNE FROM etudiants WHERE codeClasse='$codeClass'";
             $req = mysqli_query($conn, $sql) or die(mysqli_error($conn));
@@ -28,8 +29,8 @@
                 $cne = $res['CNE'];
                 for($hour=1; $hour<=$duree; $hour++){
                     $sql2 = "SELECT CNE FROM etudiants
-                            WHERE CNE IN (SELECT CNE FROM abscenter
-                                            WHERE CNE='$cne' AND date='$date' AND heure='$hour')";
+                                WHERE CNE IN (SELECT CNE FROM abscenter
+                                WHERE CNE='$cne' AND codeSeance='$codeSeance' AND date='$date' AND heure='$hour')";
                     $req2 = mysqli_query($conn, $sql2);
                     while ($row = mysqli_fetch_assoc($req2)){
                         $isExist = false;

@@ -1,7 +1,8 @@
-import { alertContainer } from "../Professor/Professor.js";
+
 export default class Alert{
-    constructor(msg) {
+    constructor(msg,parent) {
         this.msg = msg;
+        this.parent = parent;
         this.message = document.createElement("div");
         this.msg_img = document.createElement("img");
         this.content = document.createElement("div")
@@ -27,7 +28,9 @@ export default class Alert{
         let closeMessage = () => {
             this.message.classList.add('closed-alert');
             setTimeout(() => {
-                alertContainer.removeChild(this.message);
+                if(this.parent.hasChildNodes(this.message)){
+                    this.parent.removeChild(this.message);
+                }
             }, 700)
         }
 

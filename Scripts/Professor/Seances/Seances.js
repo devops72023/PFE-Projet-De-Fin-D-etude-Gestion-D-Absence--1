@@ -69,7 +69,7 @@ export default class Seances{
             this.settingBody.children[0].classList.add('remove-content')
             setTimeout(()=>{
                 this.settingBody.innerHTML = '';
-                this.settingBody.appendChild(new AddSeance().render());
+                this.settingBody.appendChild(new AddSeance(this.settingBody).render());
             }, 250)
         })
         

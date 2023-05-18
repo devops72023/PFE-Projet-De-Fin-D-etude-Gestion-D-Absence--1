@@ -64,8 +64,8 @@
         return $seanceObj;
     }
 
-    function isAbsent($conn, $cne, $date, $hour){
-        $req = mysqli_query($conn, "SELECT * FROM abscenter WHERE CNE='$cne'AND date='$date' AND heure='$hour'") or die(mysqli_error($conn));
+    function isAbsent($conn, $cne, $codeSeance, $date, $hour){
+        $req = mysqli_query($conn, "SELECT * FROM abscenter WHERE CNE='$cne' AND codeSeance='$codeSeance' AND date='$date' AND heure='$hour'") or die(mysqli_error($conn));
         $res = mysqli_fetch_array($req);
         if(isset($res)) return ['isAbsent'=>true, 'comment'=>$res['commentaire']];
         return ['isAbsent' => false];

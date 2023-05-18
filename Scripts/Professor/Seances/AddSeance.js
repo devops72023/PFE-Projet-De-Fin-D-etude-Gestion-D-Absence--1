@@ -1,7 +1,11 @@
 import { loadData, parseHour } from "../../utils";
+import Alert from "../../Alert/Alert.js";
+import { alertContainer } from "../Professor.js";
+import SeanceList from "./SeancesList.js"; 
 
 export default class AddSeance{
-    constructor(){
+    constructor(parent){
+        this.parent = parent;
         this.addSeance = document.createElement('div');
         this.header = document.createElement('div');
         this.form = document.createElement('form');
@@ -219,45 +223,65 @@ export default class AddSeance{
             .addEventListener(
                 'submit',
                     event => {
-                    event.preventDefault();
-                    let formData = new FormData();
-                    const classe = this.Classes.querySelector('.the-date').dataset.value
-                    const subject = this.Subjects.querySelector('.the-date').dataset.value
-                    const day = this.Days.querySelector('.the-date').dataset.value
-                    const hour = this.Hours.querySelector('.the-date').dataset.value
-                    const period = this.Period.querySelector('#periodValue').innerHTML
-                    if(
-                        this.isEmpty(classe) ||
-                        this.isEmpty(subject) ||
-                        this.isEmpty(day) ||
-                        this.isEmpty(hour) ||
-                        this.isEmpty(period)
-                    ){
-                        console.log("Alert! fill all the inputs.")
-                        return;
-                    }
-                    const data = 
-                    {
-                        'codeClasse' : classe,
-                        'codeMatiere' : subject,
-                        'jour' : day,
-                        'heure' : hour,
-                        'periode' : period
-                    }
-                    formData.append('data', JSON.stringify(data))
-                    formData.append('submit', 'submit');
-                    console.log(JSON.stringify(data))
-                    fetch(
-                        '/Professor/Inc/Api/AddSeance.inc.php',
-                        {
-                            method: 'POST',
-                            body: formData
+                        event.preventDefault();
+                        let formData = new FormData();
+                        const classe = this.Classes.querySelector('.the-date').dataset.value
+                        const subject = this.Subjects.querySelector('.the-date').dataset.value
+                        const day = this.Days.querySelector('.the-date').dataset.value
+                        const hour = this.Hours.querySelector('.the-date').dataset.value
+                        const period = this.Period.querySelector('#periodValue').innerHTML
+                        if(
+                            this.isEmpty(classe) ||
+                            this.isEmpty(subject) ||
+                            this.isEmpty(day) ||
+                            this.isEmpty(hour) ||
+                            this.isEmpty(period)
+                        ){
+                            alertContainer.appendChild(new Alert({
+                                type: 'warning',
+                                msg_title: 'Anonce',
+                                msg_text: 'Tous les input doivent etre remplir'
+                            }, alertContainer).render())
+                            return;
                         }
-                    ).then(res => {
-                        return res.json()
-                    }).then(res => console.log(res))
-                })
-    }
+                        const data = 
+                        {
+                            'codeClasse' : classe,
+                            'codeMatiere' : subject,
+                            'jour' : day,
+                            'heure' : hour,
+                            'periode' : period
+                        }
+                        formData.append('data', JSON.stringify(data))
+                        formData.append('submit', 'submit');
+                        console.log(JSON.stringify(data))
+                        fetch(
+                            '/Professor/Inc/Api/AddSeance.inc.php',
+                            {
+                                method: 'POST',
+                                body: formData
+                            }
+                        )
+                        .then(res => res.json())
+                        .then(res =>{
+                            alertContainer.appendChild(new Alert({
+                                type: 'success',
+                                msg_title: 'Success',
+                                msg_text: res.message
+                            }, alertContainer).render())
+                            this.parent.innerHTML = '';
+                            this.parent.appendChild(new SeanceList().render())
+                        })
+                        .catch(err => {
+                            alertContainer.appendChild(new Alert({
+                                type: 'warning',
+                                msg_title: 'Failed',
+                                msg_text: "Une erreur s'est produite. Veuillez réessayer"
+                            }, alertContainer).render())
+                        })
+                    })
+    } // End of the createForm function
+
     render(){
         this.createHeader();
         this.createForm()

@@ -1,5 +1,7 @@
 import { loadData } from "../../utils";
 import { root, goTo, loadSettings } from "../Professor.js";
+import { alertContainer } from "../Professor.js";
+import Alert from "../../Alert/Alert.js";
 
 export default class Setting{
     constructor(teacher){
@@ -178,13 +180,24 @@ export default class Setting{
                 method: 'POST',
                 body: formData
             })
-            .then(async req => {
-                let res = await req.json();
+            .then(res => res.json())
+            .then(res =>{
                 if(res.code == 200){
                     goTo(loadSettings)
+                    alertContainer.appendChild(new Alert({
+                        type: 'success',
+                        msg_title: 'Success',
+                        msg_text: res.message
+                    }, alertContainer).render())
                 }
             })
-            .catch(err => console.log(err));
+            .catch(err => {
+                alertContainer.appendChild(new Alert({
+                    type: 'warning',
+                    msg_title: 'Failed',
+                    msg_text: "Une erreur s'est produite. Veuillez réessayer"
+                }, alertContainer).render())
+            })
         })
     }
     createSettingPasswordForm(){
@@ -233,13 +246,24 @@ export default class Setting{
                 method: 'POST',
                 body: formData
             })
-            .then(async req => {
-                let res = await req.json();
+            .then(response => response.json())
+            .then(res =>{
                 if(res.code == 200){
                     goTo(loadSettings)
+                    alertContainer.appendChild(new Alert({
+                        type: 'success',
+                        msg_title: 'Success',
+                        msg_text: res.message
+                    }, alertContainer).render())
                 }
             })
-            .catch(err => console.log(err));
+            .catch(err => {
+                alertContainer.appendChild(new Alert({
+                    type: 'warning',
+                    msg_title: 'Failed',
+                    msg_text: "Une erreur s'est produite. Veuillez réessayer"
+                }, alertContainer).render())
+            })
         })
     }
     render(){

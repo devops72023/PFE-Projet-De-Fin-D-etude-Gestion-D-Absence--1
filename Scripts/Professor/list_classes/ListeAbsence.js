@@ -1,4 +1,6 @@
 import { loadData, parseHour } from "../../utils.js";
+import Alert from "../../Alert/Alert.js";
+import { alertContainer } from "../Professor.js";
 
 export default class ListeAbsence{
     constructor(data){
@@ -98,7 +100,7 @@ export default class ListeAbsence{
             chooseDate(this.datesList,e.target, this.choosedDate)
             let filter = e.target.dataset.value;
             let [res] = await loadData(
-                `/Professor/Inc/Api/Class.inc.php?codeClass=${this.data.codeClass}&filter=${filter}&date=${this.data.date}&duree=${this.data.duree}`
+                `/Professor/Inc/Api/Class.inc.php?codeClass=${this.data.codeClass}&codeSeance=${this.data.codeSeance}&filter=${filter}&date=${this.data.date}&duree=${this.data.duree}`
                 );
             if(res.length != 0){
                 this.listBody.innerHTML = '';
@@ -158,7 +160,6 @@ export default class ListeAbsence{
         this.saveBtn.setAttribute('class', 'list-save');
         this.saveBtn.innerHTML = 'Enregistrer'
         this.saveBtn.addEventListener('click',() => {
-            this.saveBtn.innerHTML = '<span class="sending"></span>';
             this.toSendData = [];
             let hours = this.list.querySelectorAll('.hour');
 
@@ -185,10 +186,22 @@ export default class ListeAbsence{
             .then(async req => {
                 this.saveBtn.innerHTML= 'Enregistrer'
                 let res = await req.json();
+                // thrwo a successful alert
+                alertContainer.appendChild(new Alert({
+                    type: 'success',
+                    msg_title: 'Success',
+                    msg_text: res.message
+                }, alertContainer).render())
                 console.log(res)
                 return res
             })
-            .catch(err => console.log(err));
+            .catch(err => {
+                alertContainer.appendChild(new Alert({
+                    type: 'warning',
+                    msg_title: 'Failed',
+                    msg_text: "Une erreur s'est produite. Veuillez réessayer"
+                }, alertContainer).render())
+            });
         });
         
         this.listHeader.append(this.listTitle, this.filterForm, this.searchForm, this.saveBtn)
@@ -197,7 +210,7 @@ export default class ListeAbsence{
         let commentContainer = '';
         let htmlInpts = '';
         for(let i = 0; i<this.data.duree; i++){
-            let [res] = await loadData(`/Professor/Inc/Api/Absence.inc.php?isAbsent=yes&cne=${cne}&date=${this.data.date}&hour=${i+1}`);
+            let [res] = await loadData(`/Professor/Inc/Api/Absence.inc.php?isAbsent=yes&codeSeance=${this.data.codeSeance}&cne=${cne}&date=${this.data.date}&hour=${i+1}`);
 
             if(res && res.isAbsent){
                 htmlInpts += `<td class="hour"><input type="checkbox" data-id="${cne}" value="${i+1}" checked/></td>`;
